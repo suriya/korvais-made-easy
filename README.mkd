@@ -1,0 +1,5 @@
+Korvais Made Easy
+=================
+
+This repository contains an implementation of the Korvais Made Easy
+algorithm (http://korvai.org/book.html) in Python, Java, and CoffeeScript.
