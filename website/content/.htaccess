@@ -2,10 +2,10 @@
 
 ErrorDocument 404 /404.html
 
-#   RewriteEngine on 
-#   RewriteCond %{HTTP:Accept-Encoding} gzip 
-#   RewriteCond %{REQUEST_FILENAME}.gz -f 
-#   RewriteRule ^(.*)$ $1.gz [L]
+RewriteEngine on 
+RewriteCond %{HTTP:Accept-Encoding} gzip 
+RewriteCond %{REQUEST_FILENAME}.gz -f 
+RewriteRule ^(.*)$ $1.gz [L]
 
 # Remove www from the hostname
 # RewriteEngine On
