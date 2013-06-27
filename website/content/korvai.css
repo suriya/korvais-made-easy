@@ -1,0 +1,176 @@
+/* $Id: korvai.css,v 1.3 2007/01/02 20:34:53 me Exp $ */
+
+* { padding: 0; margin: 0; }
+
+body {
+	padding: 0; margin: 0;
+	/* background: #F4F4F9; */
+	/* background: #E7D9B4; */
+	/* background: #FCEBAE; */
+	background: #FFF2E1;
+	color: #000;
+	font: 75% verdana,sans-serif;
+}
+/*
+a:link { color: #669; text-decoration: underline; }
+a:visited { color: #669; text-decoration: underline; }
+a:hover { color: #99c; text-decoration: underline; }
+*/
+a:link { color: #3D1D08; text-decoration: underline; }
+a:visited { color: #669; text-decoration: underline; }
+a:hover { color: #FFFFFF; background: #3D1D08; text-decoration: none; }
+
+#pageinfo {
+	position: absolute;
+	right: 20px; margin: 0 -15px 0 0; /* ie5mac hack */
+	top: 50px;
+	width: 123px;
+	font-size: .9em;
+}
+#siteinfo {
+	position: absolute;
+	left: 5px; top: 50px;
+	width: 125px;
+	font-size: .9em;
+}
+#sitenav {
+	margin: 1em 0 0; padding: 0;
+	list-style: none;
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+}
+#sitenav a:link, #sitenav a:visited {
+	display: block;
+	margin: 1px 0; padding: 3px;
+	/* background: #e2e2e8; */
+	background: #FCEBAE;
+	/* color: #669; */
+	color: #3D1D08;
+	text-decoration: none;
+	font-weight: bold;
+	width: 119px;  /* correct box model; no support for escapes */
+	\width: 125px; /* IE5 */
+	w\idth: 119px; /* correct box model; support for escapes */
+}
+#sitenav a:hover {
+	/* background: #669; */
+	background: #3D1D08;
+	font-weight: bold;
+	color: #fff;
+}
+#bottom {
+	font-size: .9em;
+	padding: 10px 0;
+	text-align: center;
+}
+#bottom a:link, #bottom a:visited {
+	color: #000;
+}
+#bottom a:hover {
+	color: #999;
+}
+#content {
+	line-height: 150%;
+	background: #fff;
+	margin: 0 135px;
+	padding: 30px;
+	border: 1px solid #ddd;
+	border-top: none;
+}
+h1 {
+	font-size: 1.4em;
+	font-weight: normal;
+	/* background: #669; */
+	background: #3D1D08;
+	color: #fff;
+	padding: 10px 10px 10px 5px;
+}
+h1 a:link, h1 a:visited, h1 a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+p {
+	margin: 0 0 .9em;
+}
+#content h2 {
+	color: #3D1D08; 
+	font-size: 1.3em;
+	font-weight: bold;
+	margin: 0 0 .9em;
+}
+#content h3 {
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 2em 0 .9em;
+}
+#content h4 {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+#content h5 {
+	font-size: .9em;
+	font-weight: bold;
+}
+#pageinfo h2, #siteinfo h2 {
+	font-size: 1.1em;
+	font-weight: bold;
+	margin: 0;
+}
+#pageinfo h3, #siteinfo h3 {
+	font-size: 1.1em;
+	margin: 1.5em 0 .6em; padding: 0;
+}
+#pageinfo p, #siteinfo p {
+	margin: 0 0 1em;
+	line-height: 135%;
+}
+
+#content ul {
+	margin: 0 30px .9em;
+	list-style: square inside;
+}
+#content ul.extraspace li {
+	margin: 0 0 .9em;
+}
+#content ul li {
+	margin: 0;
+}
+#content ol {
+	margin: 0 30px .9em;
+}
+#content ol.extraspace li {
+	margin: 0 0 .9em;
+}
+#content ol li {
+	margin: 0;
+}
+code,pre {
+	font: 1em 'courier new',courier,fixedwidth;
+	background: #eee;
+}
+strong {
+	font-weight: bold;
+}
+strong.highlight {
+	background: #ff0;
+}
+.crossedout {
+	text-decoration: line-through;
+}
+hr {
+	display: none;
+}
+hr.visible {
+	display: block;
+}
+.skipdown { display: none; }
+acronym, abbr { border-bottom: 1px dotted #666; cursor: help; }
+cite { font-style: normal; }
+q:before, q:after { content: ''; }
+label { cursor: pointer; }
+img.embedded { float: right; margin-right: 0px; margin-left: 10px; margin-top: 0px; margin-bottom: 10px; }
+ins { text-decoration: none; }
+
+/*
+ * vim:noet:ts=4:sw=4:
+ */

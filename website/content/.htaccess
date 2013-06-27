@@ -1,0 +1,19 @@
+# $Id: .htaccess,v 1.2 2007/02/05 00:34:06 me Exp $
+
+ErrorDocument 404 /404.html
+
+#   RewriteEngine on 
+#   RewriteCond %{HTTP:Accept-Encoding} gzip 
+#   RewriteCond %{REQUEST_FILENAME}.gz -f 
+#   RewriteRule ^(.*)$ $1.gz [L]
+
+# Remove www from the hostname
+# RewriteEngine On
+# RewriteCond %{HTTP_HOST} ^www\.korvai\.org$ [NC]
+# RewriteRule ^(.*)$ http://korvai.org/$1 [R=301,L]
+
+# RewriteCond %{HTTP_HOST} ^haran34579\.korvai\.org$ [NC]
+# RewriteRule ^(.*)$ http://korvai.org/$1 [R=301,L]
+
+# RewriteCond %{HTTP_HOST} ^www\.haran34579\.korvai\.org$ [NC]
+# RewriteRule ^(.*)$ http://korvai.org/$1 [R=301,L]

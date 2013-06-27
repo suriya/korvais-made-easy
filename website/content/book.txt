@@ -1,0 +1,71 @@
+<!-- $Id: book.txt,v 1.4 2007/11/06 14:44:09 me Exp $ -->
+
+## Korvais Made Easy
+
+<a target="_blank" href="http://www.flickr.com/photos/85967524@N00/341113989/"
+title="Korvais Made Easy"><img class="embedded"
+src="http://farm1.static.flickr.com/143/341113989_578a9d6e74_m.jpg" width="240"
+height="167" alt="Korvais Made Easy" /></a>
+
+The primary objective of this book is to enable Carnatic musicians and
+percussionists to easily compose Korvais in various Nadais (Tempo) according to
+the Thalam and Edam of the song.  A Korvai is a composition consisting of two
+components Purvangam and Uttarangam, and is usually played thrice. The first
+Korvai has to begin at Samam (the beginning of the Thalam cycle) and the third
+Korvai has to end at the Edam or Eduppu of the song. By using this book, the
+performer has to simply look up the tables in this book to find the Alavu
+(measurement) of the Korvai to be played, and then compose a Korvai for that
+Alavu and present it.
+
+Some of the features of the book
+
+* A large set of Nadai combinations
+* Simple usage
+* Usable by both percussion and main artists in Carnatic music
+* Detailed examples on using the book
+* Explanation in both English and Tamil
+
+## Some Korvais composed using the book
+
+* A Korvai of Alavu 120 Maathirai (letters) in Nadais Chatursram (4 letters per
+  count), Trishra Mel Kaalam (6 letters per count), Chatursra Mel Kaalam (8
+  letters per count). In Aadhi Thaalam (2 Kalai) this ends at an Edam of 1
+  count after Samam. [Konnakkol by Guru Kaaraikkudi Mani.][mani-sir-468]
+  {{mani-sir-468}}
+* Rendition of "Siddhi Vinayakam", Raagam Shanmukhapriya, Thaalam Rupakam.
+  Master M. Balamuralikrishna presents a Korvai twice in Khanda Nadai (5
+  letters per count) and once in Chatursra Nadai (4 letters per count). [The
+  Edam is "Prasiddha Gananayakam".][siddhi] {{siddhi}}
+* Korvai in Nadais Misram (7 letters per count), Khandam (5 letters per count),
+  and Chatursram (4 letters per count), [played on the Mridangam, for the above
+  song.][siddhi-thani]
+  {{siddhi-thani}}
+* "Nannu Palimpaga", Raagam Mohanam, Thaalam Aadhi. A Korvai presented twice in
+  Trishram (3 letters per count) and once in Chatursra Nadai (4 letters per
+  count). [The Edam is the same as the Pallavi.][nannu] {{nannu}}
+* Korvai in Nadais Sankeernam (9 letters per count), Trishra Mel Kaalam (6
+  letters per count) and Trishra Nadai (3 letters per count), [played on the
+  Mridangam, for the above song.][nannu-thani] {{nannu-thani}}
+* Kalpanaswaram and Korvai for the song "Sri Krishnam Bhaja" in Raagam Thodi,
+  set to Aadhi Thaalam. The performers are Master M. Balamuralikrishna, Nagai
+  Shri. Sriram on the Violin, Trivandrum Shri. Balaji on the Mridangam. Korvais
+  are presented twice in Trishra Nadai (3 letters per count) and once in
+  Chatursra Nadai (4 letters per count). [The Edam is "Sankha Chakra
+  Gadha".][sri-krishnam] We are not able to allow streaming of this file
+  because of some problem with MP3 sampling-rates. If you think you know what
+  might be the problem, please [let us know][contact]. Thank you.
+
+## Getting our book "Korvais Made Easy"
+
+You can contact [The Karnatic Music Book Centre][bookstore], Chennai, to obtain
+a copy of our book. You can also [write to us][contact] to get a copy, know
+about the book, or to share some information about Korvais.
+
+[contact]:      /contact.html                                           (Contact information)
+[mani-sir-468]: http://files.korvai.org/book/mani-sir-468.mp3           (Korvai by Guru Kaaraikkudi Mani)
+[siddhi]:       http://files.korvai.org/book/siddhi-vinayakam.mp3       (Siddhi Vinaykam)
+[siddhi-thani]: http://files.korvai.org/book/siddhi-vinayakam-thani.mp3 (Siddhi Vinaykam, Thani)
+[nannu]:        http://files.korvai.org/book/nannu-palimpaga.mp3        (Nannu Palimpaga)
+[nannu-thani]:  http://files.korvai.org/book/nannu-palimpaga-thani.mp3  (Nannu Palimpaga, Thani)
+[sri-krishnam]: http://files.korvai.org/book/sri-krishnam.mp3           (Sri Krishnam Bhaja, Kalpanaswaram and Korvai)
+[bookstore]: http://www.carnaticbooks.com (The Kanatic Music Book Centre)

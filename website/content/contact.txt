@@ -1,0 +1,38 @@
+<!-- $Id: contact.txt,v 1.3 2007/11/06 14:44:09 me Exp $ -->
+
+## Contact Us
+
+Yes, we would like to hear from you. If you have any comments about the
+website, questions about our book "Korvais Made Easy", or in general about
+Layam, do let us know. Please do share any interesting concept/idea/titbit on
+Layam, that you may have.  If you have suggestions on improving our website, we
+would be happy to listen.
+
+### E-mail
+
+You can e-mail us [comments@korvai.org][comments].
+
+### Mobile
+
+Our mobile number in Madras 98410__34579__.
+
+### Mail
+
+You can write to us at
+
+        M N Hariharan
+        108, Ponnambalam Salai
+        K K Nagar
+        Chennai - 600 078
+        India
+
+
+## Getting our book "Korvais Made Easy"
+
+You can contact [The Karnatic Music Book Centre][bookstore], Chennai, to obtain
+a copy of our book [Korvais Made Easy][kme]. You can also write to us to get a
+copy, know about the book, etc.
+
+[comments]: mailto:comments@korvai.org (Email us)
+[bookstore]: http://www.carnaticbooks.com (The Kanatic Music Book Centre)
+[kme]: /book.html (Korvais Made Easy)

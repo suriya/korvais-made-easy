@@ -1,0 +1,43 @@
+<!-- $Id: lessons.txt,v 1.2 2007/01/12 03:28:57 me Exp $ -->
+
+## Mridangam lessons
+
+We have developed a [notation for representing Mridangam lessons][notation] ([PDF][notation-PDF])
+which is concise, easy to learn and unambiguous. This method uses the duration
+of the words in the lessons for its representation rather than the words
+themselves.  This gives flexibility in playing the lessons. We welcome
+suggestions from everyone so that we can improve this notation scheme. This
+method has been constantly been evolving, and we shall openly consider to your
+suggestions.
+
+Please download the Thaniaavarthanam lessons given below, and [let us
+know][contact] your views.
+
+* [Ruparaka Thaalam, Trishra Nadai][3-6]
+* [Aadhi Thaalam, Chatursra Mel Kaala Nadai][4-8]
+* [Khanda Eka Thaalam, Khanda Nadai][5-5]
+* [Mishra Eka Thaalam, Trishra Nadai][7-6]
+* [Mishra Eka Thaalam, Misra Nadai][7-7]
+* [Aadhi Thaalam, Trishra Nadai][8-6]
+* [Aadhi Thaalam, Misra Nadai][8-7]
+* [Aadhi Thaalam, Sankeerna Nadai][8-9]
+* [Sankeerna Eka Thaalam, Sankeerna Nadai][9-9] [audio][99mp3] {{99mp3}}
+* [Trishra Mukhi Thaalam, Thrishra Nadai][9.5-6]
+* [Mishra Jampa Thaalam, Sankeerna Nadai][10-9]
+
+
+[notation]:      /notation/notation-html/index.html (Notation for representing Mridangam lessons)
+[notation-PDF]:  /notation/notation.pdf             (Notation for representing Mridangam lessons)
+[contact]:       /contact.html                      (Contact us)
+[3-6]:           http://files.korvai.org/lessons/lesson-3-6.pdf
+[4-8]:           http://files.korvai.org/lessons/lesson-4-8.pdf
+[5-5]:           http://files.korvai.org/lessons/lesson-5-5.pdf
+[7-6]:           http://files.korvai.org/lessons/lesson-7-6.pdf
+[7-7]:           http://files.korvai.org/lessons/lesson-7-7.pdf
+[8-6]:           http://files.korvai.org/lessons/lesson-8-6.pdf
+[8-7]:           http://files.korvai.org/lessons/lesson-8-7.pdf
+[8-9]:           http://files.korvai.org/lessons/lesson-8-9.pdf
+[9-9]:           http://files.korvai.org/lessons/lesson-9-9.pdf
+[99mp3]:         http://files.korvai.org/lessons/lesson-9-9.mp3
+[9.5-6]:         http://files.korvai.org/lessons/lesson-9.5-6.pdf
+[10-9]:          http://files.korvai.org/lessons/lesson-10-9.pdf

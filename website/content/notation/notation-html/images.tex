@@ -1,0 +1,475 @@
+\batchmode
+
+
+\documentclass[draft,a4paper,10pt]{article}
+\RequirePackage{ifthen}
+
+
+\usepackage{anysize}
+\marginsize
+{1.25in}
+{1.25in}
+{1.25in}
+{1.25in}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{url}
+
+
+\ProvidesPackage{mridangam}
+
+
+\typeout{***************************************************}
+\typeout{ Author: Suriya Narayanan M S <mssnlayam@vsnl.net>}
+\typeout{ This is for formatting my Mridangam notes.}
+\typeout{ This is nothing great.}
+\typeout{***************************************************}
+
+%
+\providecommand{\NADAI}{Nadai}%
+\providecommand{\KORVAI}{Korvai}%
+\providecommand{\THALAM}{Th\=a\-lam}%
+\providecommand{\MATHIRAI}{M\=athirai}%
+\providecommand{\RAGAM}{R\=agam}%
+\providecommand{\JATHI}{J\=athi}%
+\providecommand{\KALAM}{K\=a\-lam}%
+\providecommand{\CHAPU}{Ch\=apu}%
+\providecommand{\AVARTHANAM}{\=Avarthanam}%
+\providecommand{\AADHI}{\=Adhi}%
+\providecommand{\ALAVU}{Alavu}%
+\providecommand{\TRIKALAM}{Trik\=alam}%
+\providecommand{\VIDWAN}{Vid\-w\=an}%
+\providecommand{\PURVANGAM}{P\=ur\-v\=an\-gam}%
+\providecommand{\UTTARANGAM}{Uttar\=angam}%
+\providecommand{\THYAGARAJA}{Sri Thyagaraja Swamigal}%
+\providecommand{\AKSHARAM}{Aksharam}%
+\providecommand{\KALAI}{Ka\-lai}%
+\providecommand{\MEL}{M\=el}%
+\providecommand{\TISRAM}{Thri\-sh\-ram}%
+\providecommand{\TISRA}{Thri\-sh\-ra}%
+\providecommand{\CHATUSRAM}{Chaturshram}%
+\providecommand{\CHATUSRA}{Chaturshra}%
+\providecommand{\KANDAM}{Khan\-dam}%
+\providecommand{\KANDA}{Khan\-da}%
+\providecommand{\MISRAM}{Mishram}%
+\providecommand{\MISRA}{Mishra}%
+\providecommand{\SANKIRNAM}{San\-k\=ir\-nam}%
+\providecommand{\SANKIRNA}{San\-k\=ir\-na}%
+\providecommand{\DHRUVAM}{Dhruvam}%
+\providecommand{\DHRUVA}{Dhruva}%
+\providecommand{\MATYAM}{Matyam}%
+\providecommand{\MATYA}{Matya}%
+\providecommand{\RUPAKAM}{R\=upakam}%
+\providecommand{\RUPAKA}{R\=upaka}%
+\providecommand{\JAMPAI}{Jampai}%
+\providecommand{\JAMPA}{Jampa}%
+\providecommand{\TRIPUDAI}{Tripudai}%
+\providecommand{\TRIPUDA}{Tripuda}%
+\providecommand{\ADAI}{Adai}%
+\providecommand{\ADA}{Ada}%
+\providecommand{\EKA}{\=Eka} 
+
+%
+\providecommand{\ThalamsFourEightSixteen}{%
+ & Chaturshra{}   J\=athi{} \=Eka{}     Th\=a\-lam\\
+ & Thri\-sh\-ra{}      J\=athi{} Matya{}   Th\=a\-lam\\
+ & Khan\-da{}      J\=athi{} Jampa{}   Th\=a\-lam\\
+ & Chaturshra{}   J\=athi{} Tripuda{} Th\=a\-lam\\
+ & Mishra{}      J\=athi{} Matya{}   Th\=a\-lam\\
+} 
+
+%
+\providecommand{\PrintTitle}{%
+\begin{center}%
+{\Large \textbf{\TITLE} 
+
+}%
+\vspace{0.6em}%
+Hariharan M N 
+
+\vspace{0.3em}%
+\texttt{http://www.haran34579.korvai.org} 
+
+\vspace{0.6em}%
+{\large \today 
+
+}%
+\end{center}%
+
+
+\noindent These lessons are represented in a notation system described in
+\url{http://www.haran34579.korvai.org/notation/notation.pdf}. The notation
+system is also available in HTML format at
+\url{http://www.haran34579.korvai.org/notation/notation-html/index.html}.
+If you have any suggestions, clarifications, etc. regarding the notation
+system, please feel free to contact the author.\\
+
+
+\noindent
+This document contains lessons for Mridangam and other percussion
+instruments, and covers the following Th\=a\-lam{}s and Nadai{}s.
+
+
+\begin{center}
+\begin{tabular}{ll}
+{\bf Th\=a\-lam} \THALAMSCOVERED
+{\bf Nadai}  \NADAISCOVERED
+\end{tabular}
+\end{center}
+
+
+\noindent
+\rule{\textwidth}{0.6pt}
+} 
+
+%
+\providecommand{\SetupFancyHeader}{%
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}%
+\lhead{\textsl{\TITLE}}%
+\chead{}%
+\rhead{\thepage\ of \pageref{LastPage}}%
+\lfoot{}%
+\cfoot{Copyright $\copyright$\  2005 by M N Hariharan \url{<haran34579@korvai.org>}}%
+\rfoot{}%
+\renewcommand{\headrulewidth}{0pt}%
+\renewcommand{\footrulewidth}{0pt}%
+} 
+
+%
+\providecommand{\T}[1]{\ensuremath{\acute{#1}}} 
+
+%
+\providecommand{\Sp}[1]{\ensuremath{\overline{#1}}} 
+
+%
+\providecommand{\smallhskip}{\hspace{4pt}}%
+\providecommand{\medhskip}{\hspace{8pt}}%
+\providecommand{\bighskip}{\hspace{12pt}} 
+
+%
+\providecommand{\samam}{\ensuremath{\parallel}} 
+
+
+
+%
+\newenvironment{lesson}[1]{%
+\begin{minipage}{\textwidth}%
+\item[{\large {\sf {#1}}}]%
+\noindent\\%
+}
+{
+\end{minipage}
+} 
+
+%
+\providecommand{\midkorvai}{
+\noindent
+
+
+\noindent
+} 
+
+%
+\providecommand{\Mnadai}[1]{N #1M}%
+\providecommand{\Mkorvai}[1]{K #1M}%
+\providecommand{\Mas}[1]{As #1M} 
+
+%
+\providecommand{\Msectionover}{
+\hspace{\stretch{1}}
+\rule{1cm}{1pt}
+\hspace{\stretch{1}}
+} 
+
+%
+\providecommand{\Pu}[1]{
+	{{\sf [P #1M]}}
+}%
+\providecommand{\Ut}[1]{
+	{{\sf [U #1M]}}
+} 
+
+
+
+%
+\newenvironment{Msection}%
+{\begin{list}{}%
+    {	
+	\setlength{\itemindent}{0pt}
+	\setlength{\labelwidth}{0.9in}
+	\setlength{\labelsep}{0.25em}
+	\setlength{\leftmargin}{0pt}
+		\addtolength{\leftmargin}{\labelwidth}
+		\addtolength{\leftmargin}{\labelsep}
+	\setlength{\listparindent}{0pt}
+	\setlength{\topsep}{3ex}
+	\setlength{\partopsep}{0pt}
+	\setlength{\parsep}{\smallskipamount}
+	\setlength{\parskip}{0pt}
+	\setlength{\itemsep}{0pt}
+	\setlength{\listparindent}{0pt}
+    }
+}
+{\end{list}
+
+\hspace{\stretch{1}}
+\rule{1cm}{1pt}
+\hspace{\stretch{1}}
+
+} 
+
+%
+\providecommand{\LessonWordInPara}[1]{{\bf \emph{#1}}}%
+\providecommand{\LessonWordInTable}[1]{#1} 
+
+%
+\providecommand{\Sollu}{\emph{Sollu}}%
+\providecommand{\Mathirai}{\emph{Mathirai}}%
+\providecommand{\Thathakaram}{\emph{Thathakaram}}%
+\providecommand{\Karvai}{\emph{Karvai}}%
+\providecommand{\Maelkalam}{\emph{Maelkalam}} 
+
+
+\title{An efficient notation for Mridangam Lessons}
+\author{Hariharan M N\\
+\texttt{haran34579@korvai.org}\\
+\texttt{http://www.haran34579.korvai.org}}
+\date{August 17, 2003}
+
+
+\usepackage[dvips]{color}
+
+
+\pagecolor[gray]{.7}
+
+\usepackage[]{inputenc}
+
+
+
+\makeatletter
+
+\makeatletter
+\count@=\the\catcode`\_ \catcode`\_=8 
+\newenvironment{tex2html_wrap}{}{}%
+\catcode`\<=12\catcode`\_=\count@
+\newcommand{\providedcommand}[1]{\expandafter\providecommand\csname #1\endcsname}%
+\newcommand{\renewedcommand}[1]{\expandafter\providecommand\csname #1\endcsname{}%
+  \expandafter\renewcommand\csname #1\endcsname}%
+\newcommand{\newedenvironment}[1]{\newenvironment{#1}{}{}\renewenvironment{#1}}%
+\let\newedcommand\renewedcommand
+\let\renewedenvironment\newedenvironment
+\makeatother
+\let\mathon=$
+\let\mathoff=$
+\ifx\AtBeginDocument\undefined \newcommand{\AtBeginDocument}[1]{}\fi
+\newbox\sizebox
+\setlength{\hoffset}{0pt}\setlength{\voffset}{0pt}
+\addtolength{\textheight}{\footskip}\setlength{\footskip}{0pt}
+\addtolength{\textheight}{\topmargin}\setlength{\topmargin}{0pt}
+\addtolength{\textheight}{\headheight}\setlength{\headheight}{0pt}
+\addtolength{\textheight}{\headsep}\setlength{\headsep}{0pt}
+\setlength{\textwidth}{349pt}
+\newwrite\lthtmlwrite
+\makeatletter
+\let\realnormalsize=\normalsize
+\global\topskip=2sp
+\def\preveqno{}\let\real@float=\@float \let\realend@float=\end@float
+\def\@float{\let\@savefreelist\@freelist\real@float}
+\def\liih@math{\ifmmode$\else\bad@math\fi}
+\def\end@float{\realend@float\global\let\@freelist\@savefreelist}
+\let\real@dbflt=\@dbflt \let\end@dblfloat=\end@float
+\let\@largefloatcheck=\relax
+\let\if@boxedmulticols=\iftrue
+\def\@dbflt{\let\@savefreelist\@freelist\real@dbflt}
+\def\adjustnormalsize{\def\normalsize{\mathsurround=0pt \realnormalsize
+ \parindent=0pt\abovedisplayskip=0pt\belowdisplayskip=0pt}%
+ \def\phantompar{\csname par\endcsname}\normalsize}%
+\def\lthtmltypeout#1{{\let\protect\string \immediate\write\lthtmlwrite{#1}}}%
+\newcommand\lthtmlhboxmathA{\adjustnormalsize\setbox\sizebox=\hbox\bgroup\kern.05em }%
+\newcommand\lthtmlhboxmathB{\adjustnormalsize\setbox\sizebox=\hbox to\hsize\bgroup\hfill }%
+\newcommand\lthtmlvboxmathA{\adjustnormalsize\setbox\sizebox=\vbox\bgroup %
+ \let\ifinner=\iffalse \let\)\liih@math }%
+\newcommand\lthtmlboxmathZ{\@next\next\@currlist{}{\def\next{\voidb@x}}%
+ \expandafter\box\next\egroup}%
+\newcommand\lthtmlmathtype[1]{\gdef\lthtmlmathenv{#1}}%
+\newcommand\lthtmllogmath{\dimen0\ht\sizebox \advance\dimen0\dp\sizebox
+  \ifdim\dimen0>.95\vsize
+   \lthtmltypeout{%
+*** image for \lthtmlmathenv\space is too tall at \the\dimen0, reducing to .95 vsize ***}%
+   \ht\sizebox.95\vsize \dp\sizebox\z@ \fi
+  \lthtmltypeout{l2hSize %
+:\lthtmlmathenv:\the\ht\sizebox::\the\dp\sizebox::\the\wd\sizebox.\preveqno}}%
+\newcommand\lthtmlfigureA[1]{\let\@savefreelist\@freelist
+       \lthtmlmathtype{#1}\lthtmlvboxmathA}%
+\newcommand\lthtmlpictureA{\bgroup\catcode`\_=8 \lthtmlpictureB}%
+\newcommand\lthtmlpictureB[1]{\lthtmlmathtype{#1}\egroup
+       \let\@savefreelist\@freelist \lthtmlhboxmathB}%
+\newcommand\lthtmlpictureZ[1]{\hfill\lthtmlfigureZ}%
+\newcommand\lthtmlfigureZ{\lthtmlboxmathZ\lthtmllogmath\copy\sizebox
+       \global\let\@freelist\@savefreelist}%
+\newcommand\lthtmldisplayA{\bgroup\catcode`\_=8 \lthtmldisplayAi}%
+\newcommand\lthtmldisplayAi[1]{\lthtmlmathtype{#1}\egroup\lthtmlvboxmathA}%
+\newcommand\lthtmldisplayB[1]{\edef\preveqno{(\theequation)}%
+  \lthtmldisplayA{#1}\let\@eqnnum\relax}%
+\newcommand\lthtmldisplayZ{\lthtmlboxmathZ\lthtmllogmath\lthtmlsetmath}%
+\newcommand\lthtmlinlinemathA{\bgroup\catcode`\_=8 \lthtmlinlinemathB}
+\newcommand\lthtmlinlinemathB[1]{\lthtmlmathtype{#1}\egroup\lthtmlhboxmathA
+  \vrule height1.5ex width0pt }%
+\newcommand\lthtmlinlineA{\bgroup\catcode`\_=8 \lthtmlinlineB}%
+\newcommand\lthtmlinlineB[1]{\lthtmlmathtype{#1}\egroup\lthtmlhboxmathA}%
+\newcommand\lthtmlinlineZ{\egroup\expandafter\ifdim\dp\sizebox>0pt %
+  \expandafter\centerinlinemath\fi\lthtmllogmath\lthtmlsetinline}
+\newcommand\lthtmlinlinemathZ{\egroup\expandafter\ifdim\dp\sizebox>0pt %
+  \expandafter\centerinlinemath\fi\lthtmllogmath\lthtmlsetmath}
+\newcommand\lthtmlindisplaymathZ{\egroup %
+  \centerinlinemath\lthtmllogmath\lthtmlsetmath}
+\def\lthtmlsetinline{\hbox{\vrule width.1em \vtop{\vbox{%
+  \kern.1em\copy\sizebox}\ifdim\dp\sizebox>0pt\kern.1em\else\kern.3pt\fi
+  \ifdim\hsize>\wd\sizebox \hrule depth1pt\fi}}}
+\def\lthtmlsetmath{\hbox{\vrule width.1em\kern-.05em\vtop{\vbox{%
+  \kern.1em\kern0.8 pt\hbox{\hglue.17em\copy\sizebox\hglue0.8 pt}}\kern.3pt%
+  \ifdim\dp\sizebox>0pt\kern.1em\fi \kern0.8 pt%
+  \ifdim\hsize>\wd\sizebox \hrule depth1pt\fi}}}
+\def\centerinlinemath{%
+  \dimen1=\ifdim\ht\sizebox<\dp\sizebox \dp\sizebox\else\ht\sizebox\fi
+  \advance\dimen1by.5pt \vrule width0pt height\dimen1 depth\dimen1 
+ \dp\sizebox=\dimen1\ht\sizebox=\dimen1\relax}
+
+\def\lthtmlcheckvsize{\ifdim\ht\sizebox<\vsize 
+  \ifdim\wd\sizebox<\hsize\expandafter\hfill\fi \expandafter\vfill
+  \else\expandafter\vss\fi}%
+\providecommand{\selectlanguage}[1]{}%
+\makeatletter \tracingstats = 1 
+
+
+\begin{document}
+\pagestyle{empty}\thispagestyle{empty}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength hsize=\the\hsize}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength vsize=\the\vsize}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength hoffset=\the\hoffset}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength voffset=\the\voffset}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength topmargin=\the\topmargin}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength topskip=\the\topskip}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength headheight=\the\headheight}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength headsep=\the\headsep}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength parskip=\the\parskip}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength oddsidemargin=\the\oddsidemargin}\lthtmltypeout{}%
+\makeatletter
+\if@twoside\lthtmltypeout{latex2htmlLength evensidemargin=\the\evensidemargin}%
+\else\lthtmltypeout{latex2htmlLength evensidemargin=\the\oddsidemargin}\fi%
+\lthtmltypeout{}%
+\makeatother
+\setcounter{page}{1}
+\onecolumn
+
+% !!! IMAGES START HERE !!!
+
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline577}%
+\ensuremath{\acute{5}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline579}%
+\ensuremath{\acute{6}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline581}%
+\ensuremath{\acute{7}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline583}%
+\ensuremath{\acute{8}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline585}%
+\ensuremath{\acute{9}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline591}%
+\ensuremath{\overline{4}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline593}%
+\ensuremath{\acute{\ensuremath{\overline{3}}}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline595}%
+\ensuremath{\overline{Tha\ Thi,\ Ki\ Ta\ Thom}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline597}%
+\ensuremath{\acute{\ensuremath{\overline{5}}}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline599}%
+\ensuremath{\overline{Kita}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline601}%
+\ensuremath{\acute{\ensuremath{\overline{7}}}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline603}%
+\ensuremath{\overline{Kita\ Thaka\ Thari\ Thana\ Kita\ Thaka\ Thom,}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline625}%
+$1_2 1,_2 1;_2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline627}%
+$1;_2 1;_2 1;_2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline629}%
+$1,_2 1,_2 1,_2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline631}%
+$1_2 1_2 1_2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+
+\end{document}

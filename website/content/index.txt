@@ -1,0 +1,23 @@
+<!-- $Id: index.txt,v 1.4 2007/01/12 03:28:57 me Exp $ -->
+
+## Welcome to Korvai.org
+
+Welcome to Korvai.org. Thank you for visiting out website.  This is a project
+to disseminate information about Layam to music lovers all over the world.
+Though the focus is on Mridangam, we would like to encourage all Carnatic
+musicians to use this resource.  The goal of this project is to take the
+concept of rhythm to the masses and make them appreciate it.
+
+For students of Layam, we have made our [compositions][] available. We are in
+the process of converting all our lessons to PDF format.  These lessons follow
+our notation scheme ([PDF][notation-PDF]) ([HTML][notation-HTML]). We have
+composed several varieties for Kuraippus. We will try to make them available
+soon.
+
+We sincerely request you to send us your [suggestions, comments, and
+questions][contact].  We look forward to your feedback. Thank you.
+
+[compositions]:  /lessons.html                                (Mridangam lessons)
+[notation-PDF]:  /notation/notation.pdf                       (Notation for Mridangam lessons)
+[notation-HTML]: /notation/notation-html/index.html           (Notation for Mridangam lessons)
+[contact]:       /contact.html                                (Contact us)

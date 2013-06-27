@@ -1,0 +1,54 @@
+This is the our setup of maintaining Korvai.org's website.
+
+Generating the website
+----------------------
+
+Run the script: ./scripts/generate-website.py
+
+All files will be created in the content directory. We can have subdirectories
+inside the content directory. All files should end with '.txt' extension.
+Running the script ./scripts/generate-website.py will create HTML files in
+/home/htdocs directory. One HTML file will be created for each TXT file in
+content. The directory structure of the content directory will be replicated in
+the /home/htdocs directory as well.
+
+The HTML files will be created only if an entry is made for that TXT file
+content/config.py.
+
+Automatic mp3 audio links
+-------------------------
+I have written a markdown extension (scripts/markdown-1.6/mdx_mp3inline.py)
+which automatically converts links of the form {{link}} into an inline MP3
+audio player link. For this reason, we have to use the python version of
+markdown scripts/markdown-1.6.
+
+Images
+------
+All images will be stored on flickr.com. We will be using the account
+haran34579. We will link to the images on the flickr server from here.
+
+Music files
+-----------
+We expect to have a lot of audio/mp3 files. It is cheaper to host such
+files on Amazon S3.
+
+The domain name korvai.org
+--------------------------
+Our domain name korvai.org is registered with namecheap.com.
+
+namecheap.com's DNS servers handle the domain name and IP address. They just
+point to nearlyfreespeech.net's servers. This is the current configuration.
+
+     korvai.org                 CNAME          korvai.nfshost.com
+     www.korvai.org             CNAME          korvai.org
+     haran34579.korvai.org      CNAME          korvai.org
+     www.haran34579.korvai.org  CNAME          korvai.org
+     files.korvai.org           CNAME          s3.amazonaws.com
+
+E-mail addresses
+----------------
+namecheap.com also handles our email and forwarding. The current configuration is:
+
+     comments@korvai.org      forwarded to      suriya@cs.utexas.edu
+     suriya@korvai.org        forwarded to      suriya@cs.utexas.edu
+     haran34579@korvai.org    forwarded to      suriya@cs.utexas.edu
