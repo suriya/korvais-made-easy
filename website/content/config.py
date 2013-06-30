@@ -52,6 +52,21 @@ Do not modify this file. All changes will be lost.
 <meta name="verify-v1" content="mSY/3gVCQMQmT9S2dzUpaJggVqUjxPeswb2aBcrQmaE=" />
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" href="/korvai.css" type="text/css" media="all" title="Normal" />
+
+<!-- Google analytics tracking code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-425862-2']);
+  _gaq.push(['_setDomainName', 'korvai.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
 </head>
 
 <body>
@@ -80,22 +95,6 @@ ${content}
 <div id="bottom">
 <p>Copyright &copy; 2006-2013 Korvai.Org, All rights reserved.</p>
 </div>
-
-<!-- Google analytics tracking code -->
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-425862-2']);
-  _gaq.push(['_setDomainName', 'korvai.org']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 
 </body>
 </html>
