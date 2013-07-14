@@ -49,6 +49,6 @@ E-mail addresses
 ----------------
 namecheap.com also handles our email and forwarding. The current configuration is:
 
-     comments@korvai.org      forwarded to      suriya@cs.utexas.edu
-     suriya@korvai.org        forwarded to      suriya@cs.utexas.edu
-     haran34579@korvai.org    forwarded to      suriya@cs.utexas.edu
+     comments@korvai.org      is also forwarded to      suriya@alumni.cs.utexas.edu
+     suriya@korvai.org        is also forwarded to      suriya@alumni.cs.utexas.edu
+     haran34579@korvai.org    is also forwarded to      suriya@alumni.cs.utexas.edu

@@ -74,6 +74,13 @@ Do not modify this file. All changes will be lost.
 <h1><a href="/" title="Korvai.org">Korvai.org</a></h1>
 
 <div id="content">
+    <div class="highlight">
+    <strong>New:</strong> Check out our new <a title="Korvais Made Easy web application runs
+    on modern mobile, tablet, and laptop browsers" href="/app">Korvais Made
+    Easy application</a>. For comments, questions, and suggestions, please
+    contact <a href="mailto:comments@korvai.org">comments@korvai.org</a>.
+    </div>
+    <br />
 ${content}
 </div>
 

@@ -77,6 +77,13 @@ a:hover { color: #FFFFFF; background: #3D1D08; text-decoration: none; }
 	border: 1px solid #ddd;
 	border-top: none;
 }
+.highlight {
+	background-color: #CCFFCC;
+	border-bottom: 2px solid darkgreen;
+	border-top: 2px solid darkgreen;
+	padding: 10px;
+	text-align: center;
+}
 h1 {
 	font-size: 1.4em;
 	font-weight: normal;

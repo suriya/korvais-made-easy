@@ -61,6 +61,11 @@ You can contact [The Karnatic Music Book Centre][bookstore], Chennai, to obtain
 a copy of our book. You can also [write to us][contact] to get a copy, know
 about the book, or to share some information about Korvais.
 
+## Using our app
+
+__"Korvais Made Easy"__ is made available as an [app][app] that works on most 
+browsers in phones, tablets, or laptops.
+
 [contact]:      /contact.html                                           (Contact information)
 [mani-sir-468]: http://files.korvai.org/book/mani-sir-468.mp3           (Korvai by Guru Kaaraikkudi Mani)
 [siddhi]:       http://files.korvai.org/book/siddhi-vinayakam.mp3       (Siddhi Vinaykam)
@@ -69,3 +74,4 @@ about the book, or to share some information about Korvais.
 [nannu-thani]:  http://files.korvai.org/book/nannu-palimpaga-thani.mp3  (Nannu Palimpaga, Thani)
 [sri-krishnam]: http://files.korvai.org/book/sri-krishnam.mp3           (Sri Krishnam Bhaja, Kalpanaswaram and Korvai)
 [bookstore]: http://www.carnaticbooks.com (The Kanatic Music Book Centre)
+[app]:       /app (Korvais Made Easy mobile application)

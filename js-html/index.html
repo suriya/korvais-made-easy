@@ -109,12 +109,20 @@ body {
             <div class="content">
                 
   <div class="text-center page-header"> <h1>Korvais Made Easy</h1> </div>
+  <div class="row"><div class="span6 offset3">
+    <p class="lead text-center">
+	Find the duration (alavu) of Korvai (creative rhytmic composition) to suit the song's starting point (Eduppu).
+        Here are some <a href="/book.html">examples</a>.
+    </p>
+  </div></div>
   <div class="row">
     <div class="span5 offset1">
-        <p class="lead">
-        Find the alavu of Korvais by entering the Nadais, Thalam, and the
-        Eduppu.
-        </p>
+      A unique aspect of Carnatic music is to sing or perform rhythmic compositions (Korvais) as
+      the finale of creative interludes (Kalpanaswarams or Thaniavarthanams).
+      The finale should conclude at the exact point where the song should resume.
+      Choose the speeds (Nadais) of your composition, the rhythm cycle
+      (Thalam), and the start point (Eduppu) of the song. Let our app calculate the
+      duration of the compositions for you.
         <dl>
             <dt>Nadais</dt><dd>
         Nadais is something like "4-66-888" which means play the Korvai
@@ -194,11 +202,16 @@ body {
             <div id="input-template-output"></div>
             <script id="output-template" type="text/x-handlebars-template">
                 <h3 class="text-center">Solution</h3>
+               <p class="text-center"> All values in the table below are in Mathirai (number of syllables).
+	       The first row is the input Nadais (speeds) you entered. Each following row lists the
+               the Alavus (durations) of possible Korvais (compositions) that could be played in the respective Nadais. </p>
                 <table class="table table-bordered solution-table">
                     {{{tablerows}}}
                 </table>
             </script>
-            <div id="output-template-output"></div>
+            <div id="output-template-output">
+              <p class="text-info text-center">The solutions will appear here.</p>
+            </div>
         </p>
     </div>
   </div>
@@ -212,7 +225,8 @@ body {
 
 <div id="footer">
     <div class="text-center container">
-        <p class="footer-text">Copyright &copy; Korvais Made Easy.</p>
+        <p class="footer-text">For questions, comments, and suggestions, contact <a href="mailto:comments@korvai.org">comments@korvai.org</a>.
+        </p>
     </div>
 </div>
 
