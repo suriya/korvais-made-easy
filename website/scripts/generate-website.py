@@ -57,6 +57,8 @@ def do_all(OUT_DIR):
         if not os.path.isdir(htmldirname):
             os.mkdir(htmldirname)
         markdownfilename = '%s/%s' % (CONTENT_DIR, filename)
+        if not os.path.exists(markdownfilename):
+            raise IOError("File does not exist: '%s'" % markdownfilename)
         if not newer(markdownfilename, htmlfilename):
             continue
         print '%s/%s' % (CONTENT_DIR, filename)
@@ -74,6 +76,8 @@ def do_all(OUT_DIR):
         htmldirname = os.path.join(OUT_DIR, dirname)
         htmlfilename = os.path.join(OUT_DIR, filename)
         markdownfilename = '%s/%s' % (CONTENT_DIR, filename)
+        if not os.path.exists(markdownfilename):
+            raise IOError("File does not exist: '%s'" % markdownfilename)
         if not os.path.isdir(htmldirname):
             os.mkdir(htmldirname)
         if not newer(markdownfilename, htmlfilename):
