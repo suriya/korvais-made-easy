@@ -1,6 +1,7 @@
 
 Korvai = require('./korvai').Korvai
 JSU = require('./js-utils')
+require('../js/purl')
 mymod = JSU.mymod
 isInteger = JSU.isInteger
 flatten = JSU.flatten
@@ -8,12 +9,22 @@ zip = JSU.zip
 myassert = JSU.myassert
 myParseInt = JSU.myParseInt
 
-showOutput = () ->
-  source = $("#input-template").html()
-  template = Handlebars.compile(source)
-  context = { nadais: "3 3 4", thalam: "64", place: 4 }
-  html = template(context)
-  $("#input-template-output").html(html)
+cleanNadais = (nadais) ->
+  if typeof(nadais) == 'string'
+    nadais.replace(/[^0-9\-]/g, '').replace(/-+/g, '-')
+  else
+    undefined
+cleanPlace = cleanThalam = (s) ->
+  if typeof(s) == 'string'
+    s.replace(/[^0-9]/g, '')
+  else
+    undefined
+cleanParams = (params) ->
+  { nadais, thalam, place } = params
+  nadais = cleanNadais(nadais)
+  thalam = cleanThalam(thalam)
+  place = cleanPlace(place)
+  return { nadais: nadais, thalam: thalam, place: place }
 
 answerToAlavus = (k, samamtosamam) ->
   ###
@@ -35,12 +46,6 @@ answerToAlavus = (k, samamtosamam) ->
       alavus.push(value)
     _diff += diff
   return alavus
-
-unifyArray = (a) ->
-  output = {}
-  for key in [0...a.length]
-     output[a[key]] = a[key]
-  value for key, value of output
 
 isArraySimple = (alavus) ->
   ###
@@ -75,10 +80,11 @@ sortfn = (arrayA, arrayB) -> arraySum(arrayA) - arraySum(arrayB)
 #     return (a - b)
 # return 0
 
-calculate = (nadais, thalam, place) ->
+calculate = (params) ->
   ###
     Returns an HTML table's contents
   ###
+  { nadais, thalam, place } = params
   try
     k = new Korvai()
     if nadais.indexOf('-') >= 0
@@ -106,30 +112,60 @@ calculate = (nadais, thalam, place) ->
   catch error
     return error.message
 
-cleanNadais = (nadais) -> nadais.replace(/[^0-9\-]/g, '').replace(/-+/g, '-')
-cleanPlace = cleanThalam = (s) -> s.replace(/[^0-9]/g, '')
-
-updateOutput = () ->
+readParamsFromForm = () ->
   nadais = $('#id_nadais').val()
   thalam = $('#id_thalam').val()
   place = $('#id_place').val()
-  nadais = cleanNadais(nadais)
-  thalam = cleanThalam(thalam)
-  place = cleanPlace(place)
-  console.log("Nadais", nadais)
-  console.log("Thalam", thalam)
-  console.log("Place", place)
-  tablerows = calculate(nadais, thalam, place)
+  params = { nadais: nadais, thalam: thalam, place: place }
+  return cleanParams(params)
+
+readParamsFromURL = () ->
+  params = $.url().param()
+  return cleanParams(params)
+
+makeNewUrl = (params) ->
+  { nadais, thalam, place } = params
+  o = $.url()
+  newurl = "#{o.attr('path')}?nadais=#{nadais}&thalam=#{thalam}&place=#{place}"
+
+updateURL = (params) ->
+  newurl = makeNewUrl(params)
+  console.log("Updating page with new URL: #{newurl}")
+  history.pushState({}, '', newurl)
+
+updateTable = (params) ->
+  console.log("Input", params)
+  tablerows = calculate(params)
   source = $("#output-template").html()
   template = Handlebars.compile(source)
   context = { tablerows: tablerows }
   html = template(context)
   $("#output-template-output").html(html)
 
+updateInputForm = (params) ->
+  { nadais, thalam, place } = params
+  $('#id_nadais').val(nadais)
+  $('#id_thalam').val(thalam)
+  $('#id_place').val(place)
+
+pageLoadHandler = () ->
+  params = readParamsFromURL()
+  { nadais, thalam, place } = params
+  if not nadais? or not thalam? or not place?
+    console.log('Page load. No params in URL.')
+    return
+  updateInputForm(params)
+  updateTable(params)
+
+formSubmitHandler = () ->
+  params = readParamsFromForm()
+  updateTable(params)
+  updateURL(params)
+
 htmlAppRegisterAll = () ->
   $(document).ready(() ->
-    $("#form-submit-button").click(() -> updateOutput())
-    # showOutput()
+    $("#form-submit-button").click(formSubmitHandler)
+    pageLoadHandler()
   )
 
 htmlAppRegisterAll()
