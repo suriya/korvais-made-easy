@@ -29,7 +29,8 @@ static_pages = [
 'audio/audio-player.js',
 'audio/player.swf',
 'app/index.html',
-'app/out/bundle.js',
+'app/ping',
+'app/out/bundle.min.js',
 ]
 
 # files that should be extracted

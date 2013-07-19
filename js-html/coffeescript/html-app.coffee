@@ -122,6 +122,11 @@ makeNewUrl = (params) ->
   o = $.url()
   newurl = "#{o.attr('path')}?nadais=#{nadais}&thalam=#{thalam}&place=#{place}"
 
+pingAnalytics = (params) ->
+  o = $.url()
+  pingurl = "#{o.attr('path')}ping/"
+  $.get(pingurl, params)
+
 updateURL = (params) ->
   newurl = makeNewUrl(params)
   console.log("Updating page with new URL: #{newurl}")
@@ -142,6 +147,11 @@ updateInputForm = (params) ->
   $('#id_thalam').val(thalam)
   $('#id_place').val(place)
 
+animateOutput = () ->
+  $('html, body').animate({
+    scrollTop: $("#output-template-output").offset().top
+  }, 1000)
+
 pageLoadHandler = () ->
   params = readParamsFromURL()
   { nadais, thalam, place } = params
@@ -150,11 +160,15 @@ pageLoadHandler = () ->
     return
   updateInputForm(params)
   updateTable(params)
+  animateOutput()
+  pingAnalytics(params)
 
 formSubmitHandler = () ->
   params = readParamsFromForm()
   updateTable(params)
   updateURL(params)
+  animateOutput()
+  pingAnalytics(params)
 
 htmlAppRegisterAll = () ->
   $(document).ready(() ->
