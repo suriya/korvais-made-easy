@@ -1,13 +1,7 @@
 #!/usr/bin/env coffee
 
-JSU = require('./js-utils')
-myassert = JSU.myassert
-myParseInt = JSU.myParseInt
-korvai = require('./korvai')
-gcd = korvai.gcd
-Fraction = korvai.Fraction
-SetTot = korvai.SetTot
-Korvai = korvai.Korvai
+{ myassert, myParseInt } = require('./js-utils')
+{ gcd, Fraction, SetTot, Korvai } = require('./korvai')
 
 tests = () ->
   # GCD

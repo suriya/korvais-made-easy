@@ -1,11 +1,6 @@
 
 JSU = require('./js-utils')
-mymod = JSU.mymod
-isInteger = JSU.isInteger
-flatten = JSU.flatten
-zip = JSU.zip
-myassert = JSU.myassert
-myParseInt = JSU.myParseInt
+{ mymod, isInteger, zip, myassert, myParseInt } = require('./js-utils')
 
 gcd = (a, b) ->
   myassert(isInteger(a), "In gcd: '#{a}' is not an integer")

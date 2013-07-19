@@ -1,8 +1,7 @@
 #!/usr/bin/env python2.7
 
 import sys
-sys.path.append('..')
-from half import Korvai
+from korvai import Korvai
 import optparse
 
 # Command line flags

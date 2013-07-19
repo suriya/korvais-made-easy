@@ -1,13 +1,7 @@
 
-Korvai = require('./korvai').Korvai
-JSU = require('./js-utils')
+{ Korvai } = require('./korvai')
+{ flatten, zip, myParseInt } = require('./js-utils')
 require('../js/purl')
-mymod = JSU.mymod
-isInteger = JSU.isInteger
-flatten = JSU.flatten
-zip = JSU.zip
-myassert = JSU.myassert
-myParseInt = JSU.myParseInt
 
 cleanNadais = (nadais) ->
   if typeof(nadais) == 'string'
