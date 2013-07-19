@@ -124,7 +124,7 @@ makeNewUrl = (params) ->
 
 pingAnalytics = (params) ->
   o = $.url()
-  pingurl = "#{o.attr('path')}ping/"
+  pingurl = "#{o.attr('path')}ping"
   $.get(pingurl, params)
 
 updateURL = (params) ->
