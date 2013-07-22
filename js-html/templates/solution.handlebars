@@ -1,0 +1,24 @@
+<h3 class="text-center">Solution</h3>
+{{#if error}}
+  <p class="lead text-center">{{error}}</p>
+{{else}}
+<p class="text-center"> All values in the table below are in Mathirai (number of syllables).
+The first row is the input Nadais (speeds) you entered. Each following row lists the
+the Alavus (durations) of possible Korvais (compositions) that could be played in the respective Nadais. </p>
+ <table class="table table-bordered solution-table">
+   <tr class="success">
+     {{#each nadaiArray}}
+       <td>{{this}}</td>
+     {{/each}}
+   </tr>
+   {{#each solutions}}
+   <tr class="{{alavusHighlightClass this}}">
+       {{#each this}}
+         <td>{{this}}</td>
+       {{/each}}
+   </tr>
+   {{else}}
+   <tr> <td colspan="{{nadaiArray.length}}"> No solution found. </td> </tr>
+   {{/each}}
+ </table>
+{{/if}}

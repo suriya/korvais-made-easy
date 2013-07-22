@@ -99,12 +99,11 @@ calculate = (params) ->
         solution = answerToAlavus(k, samamtosamam * i)
         if solution
           solutions.push(solution)
+    nadaiArray = flatten(k.nadais)
     solutions = solutions.sort(sortfn)
-    nadairow = nadaisHTMLRow(k.nadais)
-    solutionrows = (alavusHTMLRow(s) for s in solutions).join('\n')
-    return (nadairow + solutionrows)
+    return { nadaiArray: nadaiArray, solutions: solutions }
   catch error
-    return error.message
+    return { error: error.message }
 
 readParamsFromForm = () ->
   nadais = $('#id_nadais').val()
@@ -134,11 +133,11 @@ updateURL = (params) ->
 
 updateTable = (params) ->
   console.log("Input", params)
-  tablerows = calculate(params)
-  source = $("#output-template").html()
-  template = Handlebars.compile(source)
-  context = { tablerows: tablerows }
-  html = template(context)
+  solution = calculate(params)
+  # source = $("#output-template").html()
+  # template = Handlebars.compile(source)
+  # html = template(solution)
+  html = Handlebars.templates.solution(solution)
   $("#output-template-output").html(html)
 
 updateInputForm = (params) ->
@@ -172,6 +171,7 @@ formSubmitHandler = () ->
 
 htmlAppRegisterAll = () ->
   $(document).ready(() ->
+    Handlebars.registerHelper('alavusHighlightClass', (alavus) -> if isArraySimple(alavus) then 'info' else '')
     $("#form-submit-button").click(formSubmitHandler)
     pageLoadHandler()
   )

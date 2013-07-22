@@ -4,7 +4,9 @@
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script> -->
+    <script src="js/handlebars.runtime.js"></script>
+    <script src="out/solution.handlebars.precompiled-template.js"></script>
     <!--
     <link href="css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
@@ -182,38 +184,9 @@ body {
     </div>
 
     <div class="span5">
-        <p>
-            <script id="input-template" type="text/x-handlebars-template">
-                <h3 class="text-center">Question</h3>
-                <table class="table table-bordered">
-                    <tr>
-                        <td>Nadais</td>
-                        <td>{{nadais}}</td>
-                    </tr>
-                    <tr>
-                        <td>Thalam (Mathirai)</td>
-                        <td>{{thalam}}</td>
-                    </tr>
-                    <tr>
-                        <td>Eduppu/Place (Mathirai)</td>
-                        <td>{{place}}</td>
-                    </tr>
-                </table>
-            </script>
-            <div id="input-template-output"></div>
-            <script id="output-template" type="text/x-handlebars-template">
-                <h3 class="text-center">Solution</h3>
-               <p class="text-center"> All values in the table below are in Mathirai (number of syllables).
-               The first row is the input Nadais (speeds) you entered. Each following row lists the
-               the Alavus (durations) of possible Korvais (compositions) that could be played in the respective Nadais. </p>
-                <table class="table table-bordered solution-table">
-                    {{{tablerows}}}
-                </table>
-            </script>
-            <div id="output-template-output">
-              <p class="text-info text-center">The solutions will appear here.</p>
-            </div>
-        </p>
+      <div id="output-template-output">
+        <p class="text-info text-center">The solutions will appear here.</p>
+      </div>
     </div>
   </div>
             </div>
