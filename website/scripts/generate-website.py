@@ -98,6 +98,9 @@ def do_all(OUT_DIR):
         print cmd
         os.system(cmd)
 
+    cmd = 'chmod -Rc g+rwX,o+rX %s' % OUT_DIR
+    execute_cmd(cmd)
+
 args = parse_args()
 do_all(args.destination)
 

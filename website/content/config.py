@@ -30,7 +30,9 @@ static_pages = [
 'audio/player.swf',
 'app/index.html',
 'app/ping',
+'app/js/handlebars.runtime.js',
 'app/out/bundle.min.js',
+'app/out/solution.handlebars.precompiled-template.js',
 ]
 
 # files that should be extracted

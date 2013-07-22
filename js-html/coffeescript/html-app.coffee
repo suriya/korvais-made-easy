@@ -1,7 +1,8 @@
 
 { Korvai } = require('./korvai')
 { flatten, zip, myParseInt } = require('./js-utils')
-require('../js/purl')
+if window?
+  require('../js/purl')
 
 cleanNadais = (nadais) ->
   if typeof(nadais) == 'string'
@@ -101,9 +102,9 @@ calculate = (params) ->
           solutions.push(solution)
     nadaiArray = flatten(k.nadais)
     solutions = solutions.sort(sortfn)
-    return { nadaiArray: nadaiArray, solutions: solutions }
+    return { params: params, nadaiArray: nadaiArray, solutions: solutions }
   catch error
-    return { error: error.message }
+    return { params: params, error: error.message }
 
 readParamsFromForm = () ->
   nadais = $('#id_nadais').val()
@@ -134,11 +135,8 @@ updateURL = (params) ->
 updateTable = (params) ->
   console.log("Input", params)
   solution = calculate(params)
-  # source = $("#output-template").html()
-  # template = Handlebars.compile(source)
-  # html = template(solution)
   html = Handlebars.templates.solution(solution)
-  $("#output-template-output").html(html)
+  $("#solution").html(html)
 
 updateInputForm = (params) ->
   { nadais, thalam, place } = params
@@ -148,7 +146,7 @@ updateInputForm = (params) ->
 
 animateOutput = () ->
   $('html, body').animate({
-    scrollTop: $("#output-template-output").offset().top
+    scrollTop: $("#solution").offset().top
   }, 1000)
 
 pageLoadHandler = () ->
@@ -168,12 +166,14 @@ formSubmitHandler = () ->
   updateURL(params)
   animateOutput()
   pingAnalytics(params)
+  return false # Ensure that the form does not get submitted.
 
 htmlAppRegisterAll = () ->
   $(document).ready(() ->
     Handlebars.registerHelper('alavusHighlightClass', (alavus) -> if isArraySimple(alavus) then 'info' else '')
-    $("#form-submit-button").click(formSubmitHandler)
+    $("#korvai-form").submit(formSubmitHandler)
     pageLoadHandler()
   )
 
-htmlAppRegisterAll()
+if window?
+  htmlAppRegisterAll()
