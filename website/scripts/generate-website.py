@@ -10,12 +10,13 @@ import argparse
 from string import Template
 import subprocess
 
-sys.path.append('.')
+websitedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
+sys.path.append(websitedir)
 import content.config
+CONTENT_DIR = os.path.join(websitedir, 'content')
+MARKDOWN = os.path.join(websitedir, 'scripts/markdown-1.6/markdown.py')
 
 os.umask(022)
-
-CONTENT_DIR = 'content'
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Generate Korvai.org site for deployment')
@@ -58,15 +59,14 @@ def do_all(OUT_DIR):
         htmlfilename = os.path.join(OUT_DIR, '%s.html' % basename)
         if not os.path.isdir(htmldirname):
             os.mkdir(htmldirname)
-        markdownfilename = '%s/%s' % (CONTENT_DIR, filename)
+        markdownfilename = os.path.join(CONTENT_DIR, filename)
         if not os.path.exists(markdownfilename):
             raise IOError("File does not exist: '%s'" % markdownfilename)
         if not newer(markdownfilename, htmlfilename):
             continue
-        print '%s/%s' % (CONTENT_DIR, filename)
+        print markdownfilename
         # cmd = 'scripts/Markdown.pl < %s/%s' % (CONTENT_DIR, filename)
-        cmd = 'scripts/markdown-1.6/markdown.py -x mp3inline %s' % markdownfilename
-        page_content = os.popen(cmd, 'r').read()
+        page_content = subprocess.check_output([ MARKDOWN, '-x', 'mp3inline', markdownfilename ])
         t = Template(content.config.template)
         html_code = t.substitute(
                 content=page_content,
