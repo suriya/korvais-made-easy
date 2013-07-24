@@ -30,7 +30,7 @@ static_pages = [
 'audio/player.swf',
 'app/index.html',
 'app/ping',
-'app/js/handlebars.runtime.js',
+'app/js/handlebars.runtime.min.js',
 'app/out/bundle.min.js',
 'app/out/solution.handlebars.precompiled-template.js',
 ]
@@ -52,9 +52,10 @@ Do not modify this file. All changes will be lost.
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title> Korvai.org | ${title} </title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
 <meta name="verify-v1" content="mSY/3gVCQMQmT9S2dzUpaJggVqUjxPeswb2aBcrQmaE=" />
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title> Korvai.org | ${title} </title>
 <link rel="stylesheet" href="/korvai.css" type="text/css" media="all" title="Normal" />
 
 <!-- Google analytics tracking code -->

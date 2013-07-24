@@ -7,6 +7,14 @@ RewriteCond %{HTTP:Accept-Encoding} gzip
 RewriteCond %{REQUEST_FILENAME}.gz -f 
 RewriteRule ^(.*)$ $1.gz [L]
 
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresDefault "access plus 1 week"
+  <IfModule mod_headers.c>
+    Header append Cache-Control "public"
+  </IfModule>
+</IfModule>
+
 # Remove www from the hostname
 # RewriteEngine On
 # RewriteCond %{HTTP_HOST} ^www\.korvai\.org$ [NC]
