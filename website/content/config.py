@@ -44,6 +44,7 @@ tgz_files = [
 template = """\
 <!--
 This file was automatically generated on ${date}.
+Version: ${shaid}\
 Do not modify this file. All changes will be lost.
 -->
 

@@ -8,6 +8,7 @@ import stat
 import datetime
 import argparse
 from string import Template
+import subprocess
 
 sys.path.append('.')
 import content.config
@@ -48,6 +49,7 @@ def gzip_file(filename):
 
 def do_all(OUT_DIR):
     print "\nCreating HTML files"
+    shaid = subprocess.check_output([ 'git', 'show', '-s', '--oneline' ])
     for filename,title in content.config.markdown_pages:
         dirname = os.path.dirname(filename)
         basename, ext = os.path.splitext(filename)
@@ -66,7 +68,11 @@ def do_all(OUT_DIR):
         cmd = 'scripts/markdown-1.6/markdown.py -x mp3inline %s' % markdownfilename
         page_content = os.popen(cmd, 'r').read()
         t = Template(content.config.template)
-        html_code = t.substitute(content=page_content, title=title, date=datetime.datetime.now())
+        html_code = t.substitute(
+                content=page_content,
+                title=title,
+                date=datetime.datetime.now(),
+                shaid=shaid)
         open(htmlfilename, 'w').write(html_code)
         gzip_file(htmlfilename)
 
