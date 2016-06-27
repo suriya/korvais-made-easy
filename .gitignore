@@ -1,2 +1,3 @@
 *.pyc
 *.class
+node_modules/

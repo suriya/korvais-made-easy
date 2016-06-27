@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(readlink -f $(dirname $0))
+export PATH=${SCRIPT_DIR}/downloads/node-v4.4.5-linux-x64/bin:${PATH}
+export PATH=${SCRIPT_DIR}/node_modules/.bin:${PATH}
+export PATH=${SCRIPT_DIR}/downloads/jdk1.8.0_91/bin:${PATH}
+export PATH=/home/suriya/Android/Sdk/tools:${PATH}
+export PATH=/home/suriya/Android/Sdk/platform-tools:${PATH}
+export PATH=/home/suriya/Android/Sdk/build-tools/24.0.0:${PATH}
+export ANDROID_HOME=/home/suriya/Android/Sdk
+export JAVA_HOME=${SCRIPT_DIR}/downloads/jdk1.8.0_91
+
+"$@"

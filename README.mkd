@@ -3,3 +3,11 @@ Korvais Made Easy
 
 This repository contains an implementation of the Korvais Made Easy
 algorithm (http://korvai.org/book.html) in Python, Java, and CoffeeScript.
+
+java            - A command line program written in Java
+java-mobile-app - A Java mobile application that can run in old Nokia phones
+js-html         - A static HTML+JS web application (that does not need a server)
+python          - A command line program written in Python
+cordova-app     - An Android application built using Cordova (very similar to js-html)
+
+The directory website/ contains the source code of the korvai.org website.
