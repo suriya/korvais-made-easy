@@ -2,15 +2,23 @@
   "name": "Korvai's Made Easy",
   "short_name": "Korvais",
   "description": "Carnatic Music Multi-Nadai Rhythmic Composition Calculator (Korvai's Made Easy)",
-  "start_url": "./index.html",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#141311",
   "theme_color": "#141311",
   "icons": [
     {
-      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23141311'/><text x='50' y='68' font-size='56' text-anchor='middle' fill='%23e09f3e'>♫</text></svg>",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml"
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

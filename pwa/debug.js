@@ -432,9 +432,9 @@ function loadFavorites() {
   state.favorites = [
     {
       id: 'seed-1',
-      name: 'Adi Thalam (+1 beat) • 4-66-888',
+      name: 'Adi Thalam 2 Kalai (+1 beat) • 4-66-888',
       nadaiParam: '4-66-888',
-      thalam: 32,
+      thalam: 64,
       eduppu: 4,
     },
     {

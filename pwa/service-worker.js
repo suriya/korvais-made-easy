@@ -1,4 +1,4 @@
-const CACHE_NAME = 'korvais-made-easy-v3';
+const CACHE_NAME = 'korvais-made-easy-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -9,7 +9,9 @@ const ASSETS_TO_CACHE = [
   './app.js',
   './debug.js',
   './korvai.test.js',
-  './manifest.json'
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
