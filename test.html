@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Korvai's Made Easy — Browser Unit Test Suite</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 640px) {
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .stat-value {
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+    .suite-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .suite-header {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .test-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 4px;
+      background: var(--bg-elevated);
+      font-size: 0.88rem;
+    }
+    .test-pass-badge {
+      color: #4ade80;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .test-fail-badge {
+      color: #f87171;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .test-error-box {
+      margin-top: 6px;
+      padding: 8px 10px;
+      background: rgba(229, 83, 75, 0.14);
+      border: 1px solid var(--accent-danger);
+      border-radius: 4px;
+      color: #fca5a5;
+      font-family: monospace;
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="navbar">
+      <div class="logo-area">
+        <span class="logo-mark">🧪</span>
+        <div>
+          <h1 class="logo-title">Korvai's Made Easy — Browser Test Runner</h1>
+          <div class="logo-subtitle">Zero-Dependency Unit &amp; Property-Based Verification Suite</div>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <button id="btn-rerun-tests" class="btn primary">↻ Re-run All Tests</button>
+        <a id="link-back-app" href="index.html" class="btn">← Back to Calculator</a>
+      </div>
+    </header>
+
+    <!-- Summary Metrics -->
+    <section class="stats-row" aria-label="Test Summary">
+      <div class="stat-card">
+        <div class="stat-label">Status</div>
+        <div id="stat-status" class="stat-value">Running...</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Passed</div>
+        <div id="stat-passed" class="stat-value" style="color: #4ade80;">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Failed</div>
+        <div id="stat-failed" class="stat-value" style="color: #f87171;">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Execution Time</div>
+        <div id="stat-time" class="stat-value" style="color: var(--accent-gold);">0.0 ms</div>
+      </div>
+    </section>
+
+    <!-- Suites Container -->
+    <main id="suites-container"></main>
+  </div>
+
+  <script type="module">
+    import { runAllTests } from './korvai.test.js';
+
+    const elStatus = document.getElementById('stat-status');
+    const elPassed = document.getElementById('stat-passed');
+    const elFailed = document.getElementById('stat-failed');
+    const elTime = document.getElementById('stat-time');
+    const elSuites = document.getElementById('suites-container');
+
+    function executeAndRender() {
+      const report = runAllTests();
+
+      elStatus.textContent = report.failed === 0 ? '✅ ALL PASS' : '❌ FAILED';
+      elStatus.style.color = report.failed === 0 ? '#4ade80' : '#f87171';
+      elPassed.textContent = `${report.passed} / ${report.total}`;
+      elFailed.textContent = String(report.failed);
+      elTime.textContent = `${report.totalTimeMs.toFixed(2)} ms`;
+
+      // Group results by suite
+      const bySuite = new Map();
+      for (const r of report.results) {
+        if (!bySuite.has(r.suite)) bySuite.set(r.suite, []);
+        bySuite.get(r.suite).push(r);
+      }
+
+      elSuites.innerHTML = '';
+      for (const [suiteName, items] of bySuite.entries()) {
+        const card = document.createElement('section');
+        card.className = 'suite-card';
+        const passCount = items.filter((i) => i.passed).length;
+
+        const header = document.createElement('div');
+        header.className = 'suite-header';
+        header.innerHTML = `
+          <span>${suiteName}</span>
+          <span class="panel-hint">${passCount} / ${items.length} passed</span>
+        `;
+        card.appendChild(header);
+
+        for (const item of items) {
+          const row = document.createElement('div');
+          row.className = 'test-row';
+          const left = document.createElement('div');
+          left.innerHTML = `
+            <span class="${item.passed ? 'test-pass-badge' : 'test-fail-badge'}">
+              ${item.passed ? '✓ PASS' : '✗ FAIL'}
+            </span>
+            <span>${item.name}</span>
+          `;
+          if (item.error) {
+            const errBox = document.createElement('div');
+            errBox.className = 'test-error-box';
+            errBox.textContent = item.error;
+            left.appendChild(errBox);
+          }
+
+          const right = document.createElement('span');
+          right.className = 'panel-hint';
+          right.textContent = `${item.elapsedMs.toFixed(2)} ms`;
+
+          row.appendChild(left);
+          row.appendChild(right);
+          card.appendChild(row);
+        }
+
+        elSuites.appendChild(card);
+      }
+    }
+
+    document.getElementById('btn-rerun-tests').addEventListener('click', executeAndRender);
+    executeAndRender();
+  </script>
+</body>
+</html>
