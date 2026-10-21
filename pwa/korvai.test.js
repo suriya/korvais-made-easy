@@ -11,6 +11,7 @@ import {
   lcm,
   lcmArray,
   formatFraction,
+  formatPhraseLength,
   parseNadaiToken,
   tokensToGroups,
   parseNadaiGroups,
@@ -593,6 +594,27 @@ describe('5. Linear Combination Solver & Invariants', () => {
         }
       }
     }
+  });
+
+  test('formatPhraseLength formats decomposed (a-d + k*d) when a - d > 0 and plain numbers otherwise', () => {
+    // 84, 114, 144 (start=84, d=30 -> base = 54 > 0): "54 + 30", "54 + 60", "54 + 90"
+    assert.equal(formatPhraseLength(84, 84, 30, 0), '54 + 30');
+    assert.equal(formatPhraseLength(114, 84, 30, 1), '54 + 60');
+    assert.equal(formatPhraseLength(144, 84, 30, 2), '54 + 90');
+
+    // When a = d (e.g. 30, 60, 90 -> base = 0), keep original plain display
+    assert.equal(formatPhraseLength(30, 30, 30, 0), '30');
+    assert.equal(formatPhraseLength(60, 30, 30, 1), '60');
+    assert.equal(formatPhraseLength(90, 30, 30, 2), '90');
+
+    // When a < d (e.g. 10, 40, 70 -> base = -20 < 0), keep original plain display
+    assert.equal(formatPhraseLength(10, 10, 30, 0), '10');
+    assert.equal(formatPhraseLength(40, 10, 30, 1), '40');
+    assert.equal(formatPhraseLength(70, 10, 30, 2), '70');
+
+    // Equal korvais (d = 0): keep plain display
+    assert.equal(formatPhraseLength(24, 24, 0, 0), '24');
+    assert.equal(formatPhraseLength(24, 24, 0, 1), '24');
   });
 });
 

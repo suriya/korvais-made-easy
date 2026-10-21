@@ -12,6 +12,7 @@ import {
   NADAI_FAMILIES,
   THALAM_PRESETS,
   formatFraction,
+  formatPhraseLength,
   tokensToGroups,
   parseToKeypadTokens,
   serializeTokensToParam,
@@ -300,9 +301,17 @@ function computeAndRenderResults() {
 
     elSolutionsCountBadge.textContent = `Showing top ${uniqueTop.length}`;
 
-    uniqueTop.forEach((sol, idx) => {
+    const equalKorvais = uniqueTop.filter((sol) => sol.progressionStep === 0);
+    const diffKorvais = uniqueTop.filter((sol) => sol.progressionStep > 0);
+
+    /**
+     * @param {import('./korvai.js').KorvaiSolution} sol
+     * @param {number} idx
+     * @param {boolean} isEqual
+     */
+    const createResultRow = (sol, idx, isEqual) => {
       const row = document.createElement('div');
-      row.className = 'phrase-result-row';
+      row.className = isEqual ? 'phrase-result-row equal-korvai-row' : 'phrase-result-row';
 
       const numSpan = document.createElement('span');
       numSpan.className = 'phrase-result-index';
@@ -318,18 +327,49 @@ function computeAndRenderResults() {
           sep.textContent = '-';
           valuesWrap.appendChild(sep);
         }
+        const displayStr = formatPhraseLength(
+          sol.groupLengths[gIdx],
+          sol.startLength,
+          sol.progressionStep,
+          gIdx
+        );
         for (const spec of g) {
           const pill = document.createElement('span');
           pill.className = `phrase-value-pill fam-${spec.family}`;
-          pill.textContent = String(sol.groupLengths[gIdx]);
+          pill.textContent = displayStr;
           valuesWrap.appendChild(pill);
         }
       });
 
       row.appendChild(numSpan);
       row.appendChild(valuesWrap);
-      elPhraseResultsGrid.appendChild(row);
-    });
+      return row;
+    };
+
+    if (equalKorvais.length > 0) {
+      const equalHeader = document.createElement('div');
+      equalHeader.className = 'results-subsection-header equal-header';
+      equalHeader.innerHTML = `<span>Equal Korvais</span><span class="subsection-count">${equalKorvais.length}</span>`;
+      elPhraseResultsGrid.appendChild(equalHeader);
+
+      equalKorvais.forEach((sol, idx) => {
+        elPhraseResultsGrid.appendChild(createResultRow(sol, idx, true));
+      });
+    }
+
+    if (diffKorvais.length > 0) {
+      const diffHeader = document.createElement('div');
+      diffHeader.className =
+        equalKorvais.length > 0
+          ? 'results-subsection-header diff-header with-top-gap'
+          : 'results-subsection-header diff-header';
+      diffHeader.innerHTML = `<span>Korvais with Differences</span><span class="subsection-count">${diffKorvais.length}</span>`;
+      elPhraseResultsGrid.appendChild(diffHeader);
+
+      diffKorvais.forEach((sol, idx) => {
+        elPhraseResultsGrid.appendChild(createResultRow(sol, idx, false));
+      });
+    }
   } catch (err) {
     elSolutionsCountBadge.textContent = '';
     elErrorBanner.style.display = 'block';

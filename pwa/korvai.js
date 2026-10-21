@@ -776,6 +776,30 @@ export function findDifferenceBasic(groupsOrInput) {
 }
 
 /**
+ * Formats a group's phrase length for musician-friendly composition.
+ * Given an arithmetic progression L_r = a_0 + (r - 1) * d (for r = 1..k, or gIdx = 0..k-1):
+ * - If d > 0 and (a_0 - d) > 0, returns decomposed form `(a_0 - d) + r * d`,
+ *   e.g. for [84, 114, 144] (a_0 = 84, d = 30), returns "54 + 30", "54 + 60", "54 + 90".
+ * - Otherwise (when d === 0 or a_0 - d <= 0), returns the plain number string, e.g. "30", "60", "90".
+ *
+ * @param {number} length - The total phrase length for group gIdx (L_{gIdx})
+ * @param {number} startLength - The first group's phrase length (a_0 = L_0)
+ * @param {number} progressionStep - The common difference d between consecutive groups
+ * @param {number} gIdx - 0-based group index
+ * @returns {string}
+ */
+export function formatPhraseLength(length, startLength, progressionStep, gIdx) {
+  if (progressionStep > 0) {
+    const base = startLength - progressionStep;
+    if (base > 0) {
+      const stepPart = (gIdx + 1) * progressionStep;
+      return `${base} + ${stepPart}`;
+    }
+  }
+  return String(length);
+}
+
+/**
  * @typedef {Object} KorvaiSolution
  * @property {number} a - Multiplier for basic (a >= 0)
  * @property {number} b - Multiplier for difference_basic (b >= 0)

@@ -9,6 +9,7 @@ import {
   NADAI_FAMILIES,
   THALAM_PRESETS,
   formatFraction,
+  formatPhraseLength,
   tokensToGroups,
   parseToKeypadTokens,
   serializeTokensToParam,
@@ -377,8 +378,9 @@ function computeAndRenderResults() {
         .map((g, gIdx) => {
           const family = g[0].family;
           const len = sol.groupLengths[gIdx];
+          const displayStr = formatPhraseLength(len, sol.startLength, sol.progressionStep, gIdx);
           const countLabel = g.length > 1 ? ` <small style="opacity:0.8">×${g.length}</small>` : '';
-          return `<span class="length-badge fam-${family}">${len}${countLabel}</span>`;
+          return `<span class="length-badge fam-${family}">${displayStr}${countLabel}</span>`;
         })
         .join('<span style="color:var(--text-muted);font-weight:700;">–</span>');
 
