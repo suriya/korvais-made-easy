@@ -501,6 +501,16 @@ function saveAndRenderFavorites() {
 function saveCurrentQueryToFavorites() {
   const nadaiParam = serializeTokensToParam(state.tokens);
   if (!nadaiParam) return;
+  const alreadyExists = state.favorites.some(
+    (f) =>
+      f.nadaiParam === nadaiParam &&
+      f.thalam === state.thalam &&
+      f.eduppu === state.eduppu
+  );
+  if (alreadyExists) {
+    showToast('Query is already in Saved Queries');
+    return;
+  }
   const customLabel = elInputFavoriteName.value.trim();
   const defaultLabel = `${nadaiParam} (T:${state.thalam}, E:+${state.eduppu})`;
   state.favorites.unshift({

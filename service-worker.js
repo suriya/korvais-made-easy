@@ -1,4 +1,4 @@
-const CACHE_NAME = 'korvais-made-easy-v2';
+const CACHE_NAME = 'korvais-made-easy-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -36,27 +36,27 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Network-first with offline cache fallback so local refreshes always pick up updates immediately
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-      return (
-        cachedResponse ||
-        fetch(event.request).then((networkResponse) => {
-          if (
-            networkResponse &&
-            networkResponse.status === 200 &&
-            networkResponse.type === 'basic'
-          ) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseClone);
-            });
-          }
-          return networkResponse;
-        })
-      );
-    })
+    fetch(event.request)
+      .then((networkResponse) => {
+        if (
+          networkResponse &&
+          networkResponse.status === 200 &&
+          networkResponse.type === 'basic'
+        ) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(() => {
+        return caches.match(event.request, { ignoreSearch: true });
+      })
   );
 });

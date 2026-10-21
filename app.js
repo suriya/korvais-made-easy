@@ -60,9 +60,6 @@ const elFavoritesList = /** @type {HTMLElement} */ (document.getElementById('fav
 const elFavoritesCountLabel = /** @type {HTMLElement} */ (
   document.getElementById('favorites-count-label')
 );
-const elInputFavoriteName = /** @type {HTMLInputElement} */ (
-  document.getElementById('input-favorite-name')
-);
 const elToastBanner = /** @type {HTMLElement} */ (document.getElementById('toast-banner'));
 
 /**
@@ -318,13 +315,15 @@ function computeAndRenderResults() {
         if (gIdx > 0) {
           const sep = document.createElement('span');
           sep.className = 'phrase-sep';
-          sep.textContent = '–';
+          sep.textContent = '-';
           valuesWrap.appendChild(sep);
         }
-        const pill = document.createElement('span');
-        pill.className = `phrase-value-pill fam-${g[0].family}`;
-        pill.textContent = String(sol.groupLengths[gIdx]);
-        valuesWrap.appendChild(pill);
+        for (const spec of g) {
+          const pill = document.createElement('span');
+          pill.className = `phrase-value-pill fam-${spec.family}`;
+          pill.textContent = String(sol.groupLengths[gIdx]);
+          valuesWrap.appendChild(pill);
+        }
       });
 
       row.appendChild(numSpan);
@@ -344,7 +343,13 @@ function loadFavorites() {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) {
-        state.favorites = parsed;
+        const seen = new Set();
+        state.favorites = parsed.filter((f) => {
+          const key = `${f.nadaiParam}|${f.thalam}|${f.eduppu}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
         return;
       }
     }
@@ -434,16 +439,24 @@ function saveCurrentQueryToFavorites() {
     showToast('Select at least one Nadai speed first');
     return;
   }
-  const customLabel = elInputFavoriteName.value.trim();
+  const alreadyExists = state.favorites.some(
+    (f) =>
+      f.nadaiParam === nadaiParam &&
+      f.thalam === state.thalam &&
+      f.eduppu === state.eduppu
+  );
+  if (alreadyExists) {
+    showToast('Query is already in Saved Queries');
+    return;
+  }
   const defaultLabel = `${nadaiParam} (T:${state.thalam}, E:+${state.eduppu})`;
   state.favorites.unshift({
     id: `fav-${Date.now()}`,
-    name: customLabel || defaultLabel,
+    name: defaultLabel,
     nadaiParam,
     thalam: state.thalam,
     eduppu: state.eduppu,
   });
-  elInputFavoriteName.value = '';
   saveAndRenderFavorites();
   showToast('★ Saved query');
 }
@@ -508,19 +521,7 @@ function attachEventListeners() {
     }
   });
 
-  document.getElementById('btn-share-url')?.addEventListener('click', async () => {
-    syncUrlFromState();
-    const url = window.location.href;
-    try {
-      await navigator.clipboard.writeText(url);
-      showToast('🔗 Share link copied!');
-    } catch {
-      showToast(`Link: ${url}`);
-    }
-  });
-
   document.getElementById('btn-save-favorite')?.addEventListener('click', saveCurrentQueryToFavorites);
-  document.getElementById('btn-add-favorite-inline')?.addEventListener('click', saveCurrentQueryToFavorites);
 }
 
 initKeypad();
