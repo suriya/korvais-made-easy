@@ -451,14 +451,31 @@ describe('4. Kernel Search (basic & difference_basic)', () => {
     assert.equal(d1.duration, 14);
   });
 
-  test('Finds kernels for uniform Chaturshram "4 4 4"', () => {
+  test('Finds kernels for uniform Chaturshram "4 4 4" (with alavu=0 start)', () => {
     const basic = findBasic('4 4 4');
     assert.equal(basic.length, 1);
     assert.equal(basic.duration, 3);
 
     const diff = findDifferenceBasic('4 4 4');
-    assert.deepEqual(diff.lengths, [1, 2, 3]);
-    assert.equal(diff.duration, 6);
+    assert.deepEqual(diff.lengths, [0, 1, 2]);
+    assert.equal(diff.duration, 3);
+  });
+
+  test('Finds smaller starting alavu with alavu=0 search (e.g. "6 4 4" with Thalam=14, Eduppu=0)', () => {
+    // From original repo KorvaiTest.testStartAtMiddleOfCount:
+    // For "6 4 4", basic is (3, 8) and difference_basic with s=0 is [0, 1, 2] -> 3 syllables
+    // (whereas starting at s=1 would only find [3, 4, 5] -> 11 syllables!).
+    const basic = findBasic('6 4 4');
+    assert.equal(basic.length, 3);
+    assert.equal(basic.duration, 8);
+
+    const diff = findDifferenceBasic('6 4 4');
+    assert.deepEqual(diff.lengths, [0, 1, 2]);
+    assert.equal(diff.duration, 3);
+
+    // With Thalam=14, Eduppu=0: a=1, b=2 -> 1*8 + 2*3 = 14 syllables -> phrase lengths [3, 5, 7]!
+    const res = solveKorvais({ nadai: '6 4 4', thalam: 14, eduppu: 0 });
+    assert.deepEqual(res.solutions[0].groupLengths, [3, 5, 7]);
   });
 });
 
@@ -488,16 +505,16 @@ describe('5. Linear Combination Solver & Invariants', () => {
   });
 
   test('Correctly identifies unsolvable parity cases when gcd(D_basic, D_diff, T) does not divide E', () => {
-    // For "4-4": basic is (1, 1) -> 2 syllables; diff_basic is (1, 2) -> 3 syllables -> gcd(2, 3, 32) = 1 (solvable).
-    // For "2 2": basic is (1, 1) -> 4 syllables; diff_basic is (1, 2) -> 6 syllables.
-    // Both D_basic=4 and D_diff=6 are even, so with Thalam=32 (even), odd Eduppu=3 is unreachable!
+    // For "4-4": basic is (1, 1) -> 2 syllables; diff_basic is (0, 1) -> 1 syllable -> gcd(2, 1, 32) = 1 (solvable).
+    // For "2 2": basic is (1, 1) -> 4 syllables; diff_basic is (0, 1) -> 2 syllables.
+    // Both D_basic=4 and D_diff=2 are even, so with Thalam=32 (even), odd Eduppu=3 is unreachable!
     const res = solveKorvais({
       nadai: '2 2',
       thalam: 32,
       eduppu: 3,
     });
     assert.equal(res.basic.duration, 4);
-    assert.equal(res.differenceBasic.duration, 6);
+    assert.equal(res.differenceBasic.duration, 2);
     assert.equal(res.solvable, false);
     assert.equal(res.solutions.length, 0);
   });

@@ -728,7 +728,7 @@ export function findBasic(groupsOrInput) {
 /**
  * Finds the `difference_basic` kernel: the arithmetic progression
  * L_r = s + (r - 1) * d (for r = 1..k) with smallest common difference d >= 1
- * and smallest starting length s >= 1 that is rhythmically valid.
+ * and smallest non-negative starting length 0 <= s < L_basic that is rhythmically valid.
  *
  * @param {NadaiSpec[][] | string | string[]} groupsOrInput
  * @returns {{
@@ -752,7 +752,7 @@ export function findDifferenceBasic(groupsOrInput) {
   const k = groups.length;
 
   for (let d = 1; d <= M; d++) {
-    for (let s = 1; s <= M; s++) {
+    for (let s = 0; s < M; s++) {
       const lengths = [];
       for (let r = 0; r < k; r++) {
         lengths.push(s + r * d);
@@ -844,6 +844,7 @@ export function solveKorvais({
         const groupLengths = differenceBasic.lengths.map(
           (diffLen) => a * basic.length + b * diffLen
         );
+        if (groupLengths[0] <= 0) continue;
         const segmentLengths = [];
         for (let gIdx = 0; gIdx < groups.length; gIdx++) {
           for (let sIdx = 0; sIdx < groups[gIdx].length; sIdx++) {
