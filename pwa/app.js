@@ -522,6 +522,35 @@ function attachEventListeners() {
   });
 
   document.getElementById('btn-save-favorite')?.addEventListener('click', saveCurrentQueryToFavorites);
+
+  let deferredInstallPrompt = null;
+  const btnInstallPwa = document.getElementById('btn-install-pwa');
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (btnInstallPwa) {
+      btnInstallPwa.style.display = 'inline-flex';
+    }
+  });
+
+  btnInstallPwa?.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    const { outcome } = await deferredInstallPrompt.userChoice;
+    if (outcome === 'accepted') {
+      btnInstallPwa.style.display = 'none';
+      showToast('App installation started');
+    }
+    deferredInstallPrompt = null;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    if (btnInstallPwa) {
+      btnInstallPwa.style.display = 'none';
+    }
+    showToast('Korvai\'s Made Easy installed!');
+  });
 }
 
 initKeypad();
