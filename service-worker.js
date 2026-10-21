@@ -1,11 +1,13 @@
-const CACHE_NAME = 'korvais-made-easy-v1';
+const CACHE_NAME = 'korvais-made-easy-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './debug.html',
   './test.html',
   './style.css',
   './korvai.js',
   './app.js',
+  './debug.js',
   './korvai.test.js',
   './manifest.json'
 ];

@@ -1,8 +1,10 @@
 // @ts-check
 /**
- * Korvai's Made Easy — UI Controller & State Management
- * Handles Family-Grouped Keypad, URL Query Parameters, LocalStorage Favorites,
- * Kernel Inspection, and Solutions Table Rendering.
+ * Korvai's Made Easy — Mobile-First Main UI Controller (index.html)
+ * Streamlined for performers:
+ * 1. Thalam & Eduppu first
+ * 2. Compact family-grouped Nadai keypad
+ * 3. Top N phrase length combinations sorted in ascending order of total duration
  */
 
 import {
@@ -13,39 +15,22 @@ import {
   tokensToGroups,
   parseToKeypadTokens,
   serializeTokensToParam,
-  evaluateSequence,
   solveKorvais,
 } from './korvai.js';
 
 const FAVORITES_STORAGE_KEY = 'korvai_saved_favorites_v1';
+const TOP_N_SOLUTIONS = 30;
 
-/**
- * Application State
- */
 const state = {
   /** @type {string[]} */
   tokens: ['4', '-', '6', '6', '-', '8', '8', '8'],
   thalam: 32,
   eduppu: 4,
-  filterMode: 'increasing', // 'increasing' | 'all' | 'uniform'
-  maxRange: 25,
-  /** @type {ReturnType<typeof solveKorvais> | null} */
-  lastResult: null,
   /** @type {Array<{id: string, name: string, nadaiParam: string, thalam: number, eduppu: number}>} */
   favorites: [],
 };
 
 // DOM References
-const elKeypadRows = /** @type {HTMLElement} */ (document.getElementById('keypad-rows'));
-const elSequenceGroupsRow = /** @type {HTMLElement} */ (
-  document.getElementById('sequence-groups-row')
-);
-const elSequenceModeLabel = /** @type {HTMLElement} */ (
-  document.getElementById('sequence-mode-label')
-);
-const elSequenceCanonicalText = /** @type {HTMLElement} */ (
-  document.getElementById('sequence-canonical-text')
-);
 const elSelectThalamPreset = /** @type {HTMLSelectElement} */ (
   document.getElementById('select-thalam-preset')
 );
@@ -57,25 +42,20 @@ const elInputEduppu = /** @type {HTMLInputElement} */ (document.getElementById('
 const elEduppuBeatsLabel = /** @type {HTMLElement} */ (
   document.getElementById('eduppu-beats-label')
 );
-const elErrorBanner = /** @type {HTMLElement} */ (document.getElementById('error-banner'));
-const elKernelsSection = /** @type {HTMLElement} */ (document.getElementById('kernels-section'));
-const elBasicMainVal = /** @type {HTMLElement} */ (document.getElementById('basic-main-val'));
-const elBasicSubVal = /** @type {HTMLElement} */ (document.getElementById('basic-sub-val'));
-const elDiffMainVal = /** @type {HTMLElement} */ (document.getElementById('diff-main-val'));
-const elDiffSubVal = /** @type {HTMLElement} */ (document.getElementById('diff-sub-val'));
-const elCongruenceSub = /** @type {HTMLElement} */ (
-  document.getElementById('congruence-equation-sub')
+const elKeypadRows = /** @type {HTMLElement} */ (document.getElementById('keypad-rows'));
+const elSequenceGroupsRow = /** @type {HTMLElement} */ (
+  document.getElementById('sequence-groups-row')
 );
+const elSequenceCanonicalText = /** @type {HTMLElement} */ (
+  document.getElementById('sequence-canonical-text')
+);
+const elErrorBanner = /** @type {HTMLElement} */ (document.getElementById('error-banner'));
 const elSolutionsCountBadge = /** @type {HTMLElement} */ (
   document.getElementById('solutions-count-badge')
 );
-const elSolutionsTbody = /** @type {HTMLElement} */ (document.getElementById('solutions-tbody'));
-const elBreakdownPanel = /** @type {HTMLElement} */ (document.getElementById('breakdown-panel'));
-const elBreakdownTitle = /** @type {HTMLElement} */ (document.getElementById('breakdown-title'));
-const elBreakdownSummary = /** @type {HTMLElement} */ (
-  document.getElementById('breakdown-summary')
+const elPhraseResultsGrid = /** @type {HTMLElement} */ (
+  document.getElementById('phrase-results-grid')
 );
-const elBreakdownTbody = /** @type {HTMLElement} */ (document.getElementById('breakdown-tbody'));
 const elFavoritesList = /** @type {HTMLElement} */ (document.getElementById('favorites-list'));
 const elFavoritesCountLabel = /** @type {HTMLElement} */ (
   document.getElementById('favorites-count-label')
@@ -86,7 +66,6 @@ const elInputFavoriteName = /** @type {HTMLInputElement} */ (
 const elToastBanner = /** @type {HTMLElement} */ (document.getElementById('toast-banner'));
 
 /**
- * Displays a temporary toast message at the bottom-right.
  * @param {string} msg
  */
 function showToast(msg) {
@@ -95,28 +74,24 @@ function showToast(msg) {
   clearTimeout(/** @type {any} */ (showToast)._timer);
   /** @type {any} */ (showToast)._timer = setTimeout(() => {
     elToastBanner.style.display = 'none';
-  }, 2400);
+  }, 2200);
 }
 
 /**
- * Builds the Family-Grouped Nadai Keypad (with Chaturshra Trishram in its own row).
+ * Builds the compact family-grouped Nadai keypad (with Chaturshra Trishram on its own row).
  */
 function initKeypad() {
   elKeypadRows.innerHTML = '';
   for (const fam of NADAI_FAMILIES) {
     const row = document.createElement('div');
-    row.className = 'keypad-family-row';
+    row.className = 'compact-keypad-row';
 
     const labelCell = document.createElement('div');
     labelCell.className = 'family-label-cell';
     const nameSpan = document.createElement('span');
     nameSpan.className = 'family-label-name';
     nameSpan.textContent = fam.label;
-    const subSpan = document.createElement('span');
-    subSpan.className = 'family-label-sub';
-    subSpan.textContent = fam.subtitle;
     labelCell.appendChild(nameSpan);
-    labelCell.appendChild(subSpan);
 
     const btnCell = document.createElement('div');
     btnCell.className = 'family-buttons-cell';
@@ -128,7 +103,7 @@ function initKeypad() {
       btn.id = `btn-speed-${speedId.replace('/', '-')}`;
       btn.className = `speed-btn fam-${spec.family}`;
       btn.textContent = spec.label;
-      btn.title = `${spec.name} (${spec.id} syllables/beat)`;
+      btn.title = spec.name;
       btn.addEventListener('click', () => {
         state.tokens.push(spec.id);
         onStateChanged();
@@ -142,9 +117,6 @@ function initKeypad() {
   }
 }
 
-/**
- * Initializes the Thalam preset dropdown.
- */
 function initThalamPresets() {
   elSelectThalamPreset.innerHTML = '';
   for (const preset of THALAM_PRESETS) {
@@ -162,9 +134,6 @@ function initThalamPresets() {
   elSelectThalamPreset.appendChild(customOpt);
 }
 
-/**
- * Reads initial state from URL query parameters (?nadai=...&thalam=...&eduppu=...) if present.
- */
 function loadStateFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const nadaiParam = params.get('nadai');
@@ -173,33 +142,22 @@ function loadStateFromUrl() {
 
   if (nadaiParam) {
     try {
-      const parsedTokens = parseToKeypadTokens(nadaiParam);
-      if (parsedTokens.length > 0) {
-        state.tokens = parsedTokens;
-      }
+      const parsed = parseToKeypadTokens(nadaiParam);
+      if (parsed.length > 0) state.tokens = parsed;
     } catch (e) {
-      console.warn('Invalid nadai URL parameter, falling back to default:', e);
+      console.warn('Invalid nadai URL parameter:', e);
     }
   }
-
   if (thalamParam !== null) {
     const t = Number(thalamParam);
-    if (Number.isInteger(t) && t >= 2) {
-      state.thalam = t;
-    }
+    if (Number.isInteger(t) && t >= 2) state.thalam = t;
   }
-
   if (eduppuParam !== null) {
     const e = Number(eduppuParam);
-    if (Number.isInteger(e) && e >= 0) {
-      state.eduppu = e;
-    }
+    if (Number.isInteger(e) && e >= 0) state.eduppu = e;
   }
 }
 
-/**
- * Synchronizes current state to the browser URL query string without reloading.
- */
 function syncUrlFromState() {
   const nadaiStr = serializeTokensToParam(state.tokens);
   const params = new URLSearchParams();
@@ -211,82 +169,6 @@ function syncUrlFromState() {
 }
 
 /**
- * Renders the visual token chips & group containers in the sequence display box.
- */
-function renderSequenceDisplay() {
-  elSequenceGroupsRow.innerHTML = '';
-  const hasExplicitSep = state.tokens.includes('-');
-  const canonicalStr = serializeTokensToParam(state.tokens);
-
-  elSequenceCanonicalText.textContent = canonicalStr || '(empty)';
-
-  if (state.tokens.length === 0) {
-    elSequenceModeLabel.textContent = 'Tap speed buttons below to add nadais';
-    const emptyHint = document.createElement('span');
-    emptyHint.className = 'panel-hint';
-    emptyHint.textContent = 'No nadai speeds selected yet.';
-    elSequenceGroupsRow.appendChild(emptyHint);
-    return;
-  }
-
-  if (!hasExplicitSep) {
-    elSequenceModeLabel.textContent = `Ungrouped Mode (${state.tokens.length} separate groups of 1)`;
-    state.tokens.forEach((tok, idx) => {
-      const spec = NADAI_CATALOG[tok];
-      const box = document.createElement('span');
-      box.className = 'group-pill-box';
-      const chip = createTokenChip(spec ? spec.label : tok, spec ? spec.family : 'chaturshram', idx);
-      box.appendChild(chip);
-      elSequenceGroupsRow.appendChild(box);
-    });
-  } else {
-    // Render tokens grouped by '-'
-    let groupCount = 0;
-    let currentBox = document.createElement('span');
-    currentBox.className = 'group-pill-box';
-    let currentHasItems = false;
-
-    state.tokens.forEach((tok, idx) => {
-      if (tok === '-') {
-        if (currentHasItems) {
-          elSequenceGroupsRow.appendChild(currentBox);
-          groupCount++;
-          currentBox = document.createElement('span');
-          currentBox.className = 'group-pill-box';
-          currentHasItems = false;
-        }
-        const sep = document.createElement('span');
-        sep.className = 'group-sep-badge';
-        sep.textContent = '—';
-        sep.title = 'Click to remove separator';
-        sep.style.cursor = 'pointer';
-        sep.addEventListener('click', () => {
-          state.tokens.splice(idx, 1);
-          onStateChanged();
-        });
-        elSequenceGroupsRow.appendChild(sep);
-      } else {
-        const spec = NADAI_CATALOG[tok];
-        const chip = createTokenChip(
-          spec ? spec.label : tok,
-          spec ? spec.family : 'chaturshram',
-          idx
-        );
-        currentBox.appendChild(chip);
-        currentHasItems = true;
-      }
-    });
-
-    if (currentHasItems) {
-      elSequenceGroupsRow.appendChild(currentBox);
-      groupCount++;
-    }
-    elSequenceModeLabel.textContent = `Explicit Grouping (${groupCount} group${groupCount === 1 ? '' : 's'})`;
-  }
-}
-
-/**
- * Helper to create a clickable Nadai token chip that removes itself when clicked.
  * @param {string} label
  * @param {string} family
  * @param {number} tokenIndex
@@ -296,7 +178,7 @@ function createTokenChip(label, family, tokenIndex) {
   chip.type = 'button';
   chip.className = `nadai-chip fam-${family}`;
   chip.textContent = label;
-  chip.title = `Click to remove "${label}"`;
+  chip.title = `Tap to remove "${label}"`;
   chip.addEventListener('click', () => {
     state.tokens.splice(tokenIndex, 1);
     onStateChanged();
@@ -304,165 +186,158 @@ function createTokenChip(label, family, tokenIndex) {
   return chip;
 }
 
-/**
- * Updates the Thalam & Eduppu inputs and beat sub-labels.
- */
+function renderSequenceDisplay() {
+  elSequenceGroupsRow.innerHTML = '';
+  const hasExplicitSep = state.tokens.includes('-');
+  const canonicalStr = serializeTokensToParam(state.tokens);
+  elSequenceCanonicalText.textContent = canonicalStr || '(empty)';
+
+  if (state.tokens.length === 0) {
+    const emptyHint = document.createElement('span');
+    emptyHint.className = 'panel-hint';
+    emptyHint.textContent = 'Tap speed buttons below to build nadai sequence...';
+    elSequenceGroupsRow.appendChild(emptyHint);
+    return;
+  }
+
+  if (!hasExplicitSep) {
+    state.tokens.forEach((tok, idx) => {
+      const spec = NADAI_CATALOG[tok];
+      const box = document.createElement('span');
+      box.className = 'group-pill-box';
+      box.appendChild(
+        createTokenChip(spec ? spec.label : tok, spec ? spec.family : 'chaturshram', idx)
+      );
+      elSequenceGroupsRow.appendChild(box);
+    });
+  } else {
+    let currentBox = document.createElement('span');
+    currentBox.className = 'group-pill-box';
+    let currentHasItems = false;
+
+    state.tokens.forEach((tok, idx) => {
+      if (tok === '-') {
+        if (currentHasItems) {
+          elSequenceGroupsRow.appendChild(currentBox);
+          currentBox = document.createElement('span');
+          currentBox.className = 'group-pill-box';
+          currentHasItems = false;
+        }
+        const sep = document.createElement('span');
+        sep.className = 'group-sep-badge';
+        sep.textContent = '—';
+        sep.style.cursor = 'pointer';
+        sep.addEventListener('click', () => {
+          state.tokens.splice(idx, 1);
+          onStateChanged();
+        });
+        elSequenceGroupsRow.appendChild(sep);
+      } else {
+        const spec = NADAI_CATALOG[tok];
+        currentBox.appendChild(
+          createTokenChip(spec ? spec.label : tok, spec ? spec.family : 'chaturshram', idx)
+        );
+        currentHasItems = true;
+      }
+    });
+
+    if (currentHasItems) {
+      elSequenceGroupsRow.appendChild(currentBox);
+    }
+  }
+}
+
 function renderThalamAndEduppuInputs() {
   elInputThalam.value = String(state.thalam);
-  elThalamBeatsLabel.textContent = `${formatFraction(state.thalam, 4)} beats (${state.thalam} syllables)`;
+  elThalamBeatsLabel.textContent = `${formatFraction(state.thalam, 4)} beats (${state.thalam})`;
 
   const matchingPreset = THALAM_PRESETS.find((p) => p.syllables === state.thalam);
   elSelectThalamPreset.value = matchingPreset ? String(matchingPreset.syllables) : 'custom';
 
   elInputEduppu.value = String(state.eduppu);
   if (state.eduppu === 0 || state.eduppu % state.thalam === 0) {
-    elEduppuBeatsLabel.textContent = 'Samam (0 beats)';
+    elEduppuBeatsLabel.textContent = 'Samam';
   } else {
-    elEduppuBeatsLabel.textContent = `${formatFraction(state.eduppu, 4)} beats (+${state.eduppu} syllables)`;
+    elEduppuBeatsLabel.textContent = `${formatFraction(state.eduppu, 4)}b`;
   }
 }
 
 /**
- * Renders the step-by-step beat alignment inspector for a given groupLengths vector.
- * @param {string} title
- * @param {number[]} groupLengths
- */
-function openBreakdownInspector(title, groupLengths) {
-  if (!state.lastResult) return;
-  const evaluation = evaluateSequence(state.lastResult.groups, groupLengths);
-  elBreakdownTitle.textContent = title;
-  elBreakdownSummary.textContent = `Group phrase lengths: [${groupLengths.join(', ')}] • Total Duration: ${evaluation.durationSyllables} syllables (${evaluation.durationBeatsFormatted} beats) • Beat resolution M = ${evaluation.ticksPerBeat} ticks/beat`;
-
-  elBreakdownTbody.innerHTML = '';
-  for (const step of evaluation.steps) {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>#${step.segmentIndex + 1}</td>
-      <td>Group ${step.groupIndex + 1}</td>
-      <td><span class="length-badge fam-${step.nadai.family}">${step.nadai.label}</span> <span class="panel-hint">${step.nadai.name}</span></td>
-      <td><strong>${step.length}</strong> letters</td>
-      <td>${step.startBeatsFormatted} beats</td>
-      <td>Divisible by 1/${step.nadai.num} beat ${step.entryValid ? '✅' : '❌'}</td>
-      <td><strong>${step.endBeatsFormatted}</strong> beats</td>
-    `;
-    elBreakdownTbody.appendChild(tr);
-  }
-  elBreakdownPanel.style.display = 'block';
-}
-
-/**
- * Computes kernels & solutions and updates the right-hand results panel.
+ * Computes and renders the top N phrase combinations sorted in ascending order of total duration.
+ * Only displays the value of each phrase (no a, b, or total duration).
  */
 function computeAndRenderResults() {
+  elPhraseResultsGrid.innerHTML = '';
   try {
     const groups = tokensToGroups(state.tokens);
     const result = solveKorvais({
       nadai: groups,
       thalam: state.thalam,
       eduppu: state.eduppu,
-      maxA: state.maxRange,
-      maxB: state.maxRange,
-      maxSolutions: 250,
+      maxA: 40,
+      maxB: 40,
+      maxSolutions: 300,
     });
-    state.lastResult = result;
 
     elErrorBanner.style.display = 'none';
-    elKernelsSection.style.display = 'block';
-
-    // 1. Update Basic Kernel Card
-    elBasicMainVal.textContent = result.basic.summary;
-    elBasicSubVal.textContent = `Playing length ${result.basic.length} in each nadai takes ${result.basic.duration} syllables (${result.basic.beatsFormatted} beats)`;
-
-    // 2. Update Difference_Basic Kernel Card
-    elDiffMainVal.textContent = result.differenceBasic.summary;
-    elDiffSubVal.textContent = `Start s = ${result.differenceBasic.start}, Step d = +${result.differenceBasic.step} • Takes ${result.differenceBasic.duration} syllables (${result.differenceBasic.beatsFormatted} beats)`;
-
-    // 3. Update Congruence Subtitle
-    elCongruenceSub.textContent = `Solving (a × ${result.basic.duration} + b × ${result.differenceBasic.duration}) ≡ ${result.targetMod} (mod ${result.thalam}) with a ≥ 0, b ≥ 0`;
-
-    // 4. Filter Solutions
-    const filtered = result.solutions.filter((sol) => {
-      if (state.filterMode === 'increasing') return sol.b > 0;
-      if (state.filterMode === 'uniform') return sol.b === 0;
-      return true;
-    });
-
-    elSolutionsCountBadge.textContent = `${filtered.length} solution${filtered.length === 1 ? '' : 's'}`;
-    elSolutionsTbody.innerHTML = '';
 
     if (!result.solvable) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td colspan="5" style="text-align: center; padding: 22px; color: #fca5a5;">
-          No integer solution exists because gcd(D_basic=${result.basic.duration}, D_diff=${result.differenceBasic.duration}, Thalam=${result.thalam}) = ${result.kernelGcd} does not divide Eduppu (${result.targetMod}).
-        </td>
-      `;
-      elSolutionsTbody.appendChild(tr);
+      elSolutionsCountBadge.textContent = '0 matches';
+      elErrorBanner.style.display = 'block';
+      elErrorBanner.textContent =
+        'No valid korvai exists for this Thalam and Eduppu combination (parity mismatch).';
       return;
     }
 
-    if (filtered.length === 0) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td colspan="5" style="text-align: center; padding: 22px; color: var(--text-secondary);">
-          No solutions in this filter view. Try switching to "All Valid (b ≥ 0)" or increasing the search range.
-        </td>
-      `;
-      elSolutionsTbody.appendChild(tr);
-      return;
+    // Deduplicate identical phrase length sequences and keep top N in ascending duration order
+    const seen = new Set();
+    const uniqueTop = [];
+    for (const sol of result.solutions) {
+      const key = sol.groupLengths.join(',');
+      if (!seen.has(key)) {
+        seen.add(key);
+        uniqueTop.push(sol);
+        if (uniqueTop.length >= TOP_N_SOLUTIONS) break;
+      }
     }
 
-    for (const sol of filtered) {
-      const tr = document.createElement('tr');
-      tr.title = 'Click to inspect beat-by-beat alignment for this Korvai';
+    elSolutionsCountBadge.textContent = `Showing top ${uniqueTop.length}`;
 
-      // Build colored group length badges matching the Nadai groups
-      const lengthsHtml = result.groups
-        .map((g, gIdx) => {
-          const family = g[0].family;
-          const len = sol.groupLengths[gIdx];
-          const countLabel = g.length > 1 ? ` <small style="opacity:0.8">×${g.length}</small>` : '';
-          return `<span class="length-badge fam-${family}" title="Group ${gIdx + 1} (${g.map((x) => x.id).join(', ')}): play ${len} syllables">${len}${countLabel}</span>`;
-        })
-        .join('<span style="color:var(--text-muted);font-weight:700;">–</span>');
+    uniqueTop.forEach((sol, idx) => {
+      const row = document.createElement('div');
+      row.className = 'phrase-result-row';
 
-      const stepText = sol.progressionStep === 0 ? 'Uniform (0)' : `+${sol.progressionStep}`;
-      const cycleText =
-         result.targetMod === 0
-          ? `${sol.cycles} cycle${sol.cycles === 1 ? '' : 's'}`
-          : `${sol.cycles} cycle${sol.cycles === 1 ? '' : 's'} + ${result.targetMod}`;
+      const numSpan = document.createElement('span');
+      numSpan.className = 'phrase-result-index';
+      numSpan.textContent = `#${idx + 1}`;
 
-      tr.innerHTML = `
-        <td><div class="phrase-lengths-cell">${lengthsHtml}</div></td>
-        <td><strong>${stepText}</strong></td>
-        <td><code>a=${sol.a}, b=${sol.b}</code> <span class="panel-hint">(${sol.formulaText})</span></td>
-        <td><strong>${sol.durationSyllables}</strong> syllables <span class="panel-hint">(${sol.durationBeatsFormatted} beats)</span></td>
-        <td>${cycleText}</td>
-      `;
+      const valuesWrap = document.createElement('div');
+      valuesWrap.className = 'phrase-values-wrap';
 
-      tr.addEventListener('click', () => {
-        document
-          .querySelectorAll('.solutions-table tbody tr')
-          .forEach((r) => r.classList.remove('selected-row'));
-        tr.classList.add('selected-row');
-        openBreakdownInspector(
-          `Solution Breakdown (a=${sol.a}, b=${sol.b} → [${sol.groupLengths.join(', ')}])`,
-          sol.groupLengths
-        );
+      result.groups.forEach((g, gIdx) => {
+        if (gIdx > 0) {
+          const sep = document.createElement('span');
+          sep.className = 'phrase-sep';
+          sep.textContent = '–';
+          valuesWrap.appendChild(sep);
+        }
+        const pill = document.createElement('span');
+        pill.className = `phrase-value-pill fam-${g[0].family}`;
+        pill.textContent = String(sol.groupLengths[gIdx]);
+        valuesWrap.appendChild(pill);
       });
 
-      elSolutionsTbody.appendChild(tr);
-    }
+      row.appendChild(numSpan);
+      row.appendChild(valuesWrap);
+      elPhraseResultsGrid.appendChild(row);
+    });
   } catch (err) {
-    elKernelsSection.style.display = 'none';
+    elSolutionsCountBadge.textContent = '';
     elErrorBanner.style.display = 'block';
     elErrorBanner.textContent = err instanceof Error ? err.message : String(err);
   }
 }
 
-/**
- * Loads saved favorites from localStorage.
- */
 function loadFavorites() {
   try {
     const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
@@ -474,9 +349,8 @@ function loadFavorites() {
       }
     }
   } catch (e) {
-    console.warn('Could not read favorites from localStorage:', e);
+    console.warn('Could not read favorites:', e);
   }
-  // Seed with two helpful default examples on first visit
   state.favorites = [
     {
       id: 'seed-1',
@@ -495,14 +369,11 @@ function loadFavorites() {
   ];
 }
 
-/**
- * Persists favorites to localStorage and renders the list.
- */
 function saveAndRenderFavorites() {
   try {
     localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(state.favorites));
   } catch (e) {
-    console.warn('Could not save favorites to localStorage:', e);
+    console.warn('Could not save favorites:', e);
   }
 
   elFavoritesCountLabel.textContent = `${state.favorites.length} saved`;
@@ -511,7 +382,7 @@ function saveAndRenderFavorites() {
   if (state.favorites.length === 0) {
     const empty = document.createElement('div');
     empty.className = 'panel-hint';
-    empty.textContent = 'No saved queries yet. Click "★ Save Query" to bookmark one.';
+    empty.textContent = 'No saved queries yet.';
     elFavoritesList.appendChild(empty);
     return;
   }
@@ -527,7 +398,7 @@ function saveAndRenderFavorites() {
     title.textContent = fav.name;
     const meta = document.createElement('div');
     meta.className = 'favorite-meta';
-    meta.textContent = `Nadai: ${fav.nadaiParam} • Thalam: ${fav.thalam} (${formatFraction(fav.thalam, 4)}b) • Eduppu: +${fav.eduppu}`;
+    meta.textContent = `Nadai: ${fav.nadaiParam} • Thalam: ${fav.thalam} • Eduppu: +${fav.eduppu}`;
     info.appendChild(title);
     info.appendChild(meta);
 
@@ -537,7 +408,6 @@ function saveAndRenderFavorites() {
     delBtn.style.padding = '3px 8px';
     delBtn.style.fontSize = '0.75rem';
     delBtn.textContent = '✕';
-    delBtn.title = 'Remove favorite';
     delBtn.addEventListener('click', (ev) => {
       ev.stopPropagation();
       state.favorites = state.favorites.filter((f) => f.id !== fav.id);
@@ -558,51 +428,36 @@ function saveAndRenderFavorites() {
   }
 }
 
-/**
- * Adds the current query configuration to Favorites.
- */
 function saveCurrentQueryToFavorites() {
   const nadaiParam = serializeTokensToParam(state.tokens);
   if (!nadaiParam) {
-    showToast('Add at least one Nadai speed before saving');
+    showToast('Select at least one Nadai speed first');
     return;
   }
   const customLabel = elInputFavoriteName.value.trim();
   const defaultLabel = `${nadaiParam} (T:${state.thalam}, E:+${state.eduppu})`;
-  const newFav = {
+  state.favorites.unshift({
     id: `fav-${Date.now()}`,
     name: customLabel || defaultLabel,
     nadaiParam,
     thalam: state.thalam,
     eduppu: state.eduppu,
-  };
-  state.favorites.unshift(newFav);
+  });
   elInputFavoriteName.value = '';
   saveAndRenderFavorites();
-  showToast('★ Saved query to favorites');
+  showToast('★ Saved query');
 }
 
-/**
- * Central state update handler.
- */
 function onStateChanged() {
-  elBreakdownPanel.style.display = 'none';
   syncUrlFromState();
-  renderSequenceDisplay();
   renderThalamAndEduppuInputs();
+  renderSequenceDisplay();
   computeAndRenderResults();
 }
 
-// ============================================================================
-// Wire Up Event Listeners
-// ============================================================================
 function attachEventListeners() {
-  // Keypad Separator, Backspace, Clear
   document.getElementById('btn-key-sep')?.addEventListener('click', () => {
-    if (
-      state.tokens.length > 0 &&
-      state.tokens[state.tokens.length - 1] !== '-'
-    ) {
+    if (state.tokens.length > 0 && state.tokens[state.tokens.length - 1] !== '-') {
       state.tokens.push('-');
       onStateChanged();
     }
@@ -620,18 +475,6 @@ function attachEventListeners() {
     onStateChanged();
   });
 
-  // Sequence Preset Chips
-  document.querySelectorAll('#preset-sequences-row .preset-chip').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const seq = btn.getAttribute('data-seq');
-      if (seq) {
-        state.tokens = parseToKeypadTokens(seq);
-        onStateChanged();
-      }
-    });
-  });
-
-  // Thalam Preset Select & Numeric Input
   elSelectThalamPreset.addEventListener('change', () => {
     if (elSelectThalamPreset.value !== 'custom') {
       state.thalam = Number(elSelectThalamPreset.value);
@@ -647,7 +490,6 @@ function attachEventListeners() {
     }
   });
 
-  // Eduppu Quick Chips & Numeric Input
   document.querySelectorAll('#eduppu-quick-chips .preset-chip').forEach((btn) => {
     btn.addEventListener('click', () => {
       const eVal = Number(btn.getAttribute('data-eduppu'));
@@ -666,70 +508,21 @@ function attachEventListeners() {
     }
   });
 
-  // Solution Filter Tabs
-  document.querySelectorAll('.pill-tab').forEach((tab) => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.pill-tab').forEach((t) => t.classList.remove('active'));
-      tab.classList.add('active');
-      state.filterMode = tab.getAttribute('data-filter') || 'increasing';
-      computeAndRenderResults();
-    });
-  });
-
-  // Search Range Selector
-  const elMaxRange = /** @type {HTMLSelectElement} */ (
-    document.getElementById('select-max-range')
-  );
-  elMaxRange?.addEventListener('change', () => {
-    state.maxRange = Number(elMaxRange.value) || 25;
-    computeAndRenderResults();
-  });
-
-  // Inspect Basic & Difference_Basic Steps
-  document.getElementById('btn-inspect-basic')?.addEventListener('click', () => {
-    if (state.lastResult) {
-      openBreakdownInspector(
-        `Basic Kernel Alignment (${state.lastResult.basic.summary})`,
-        state.lastResult.basic.lengths
-      );
-    }
-  });
-
-  document.getElementById('btn-inspect-diff')?.addEventListener('click', () => {
-    if (state.lastResult) {
-      openBreakdownInspector(
-        `Difference_Basic Kernel Alignment (${state.lastResult.differenceBasic.summary})`,
-        state.lastResult.differenceBasic.lengths
-      );
-    }
-  });
-
-  document.getElementById('btn-close-breakdown')?.addEventListener('click', () => {
-    elBreakdownPanel.style.display = 'none';
-  });
-
-  // Share URL Button
   document.getElementById('btn-share-url')?.addEventListener('click', async () => {
     syncUrlFromState();
     const url = window.location.href;
     try {
       await navigator.clipboard.writeText(url);
-      showToast('🔗 Shareable link copied to clipboard!');
+      showToast('🔗 Share link copied!');
     } catch {
-      showToast(`Share URL: ${url}`);
+      showToast(`Link: ${url}`);
     }
   });
 
-  // Save Favorite Buttons
-  document
-    .getElementById('btn-save-favorite')
-    ?.addEventListener('click', saveCurrentQueryToFavorites);
-  document
-    .getElementById('btn-add-favorite-inline')
-    ?.addEventListener('click', saveCurrentQueryToFavorites);
+  document.getElementById('btn-save-favorite')?.addEventListener('click', saveCurrentQueryToFavorites);
+  document.getElementById('btn-add-favorite-inline')?.addEventListener('click', saveCurrentQueryToFavorites);
 }
 
-// Initialize App
 initKeypad();
 initThalamPresets();
 loadFavorites();

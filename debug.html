@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Korvai's Made Easy — Debug & Kernel Inspector View">
+  <title>Korvai's Made Easy — Debug View</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#141311">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+      <div class="logo-area">
+        <span class="logo-mark">♫</span>
+        <div>
+          <h1 class="logo-title">Korvai's Made Easy (Debug View)</h1>
+          <div class="logo-subtitle">Kernel Inspector &amp; Full Mathematical Details</div>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <a href="index.html" class="btn">📱 Main Mobile UI</a>
+        <button id="btn-save-favorite" class="btn" title="Bookmark current Nadai, Thalam, and Eduppu">
+          ★ Save Query
+        </button>
+        <button id="btn-share-url" class="btn primary" title="Copy shareable link with URL query parameters">
+          🔗 Copy Share Link
+        </button>
+        <a id="link-unit-tests" href="test.html" class="btn" title="Run browser-based unit test suite">
+          🧪 Unit Tests
+        </a>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <!-- Left Column: Nadai Keypad, Thalam & Eduppu Inputs, Favorites -->
+      <section aria-label="Korvai Configuration">
+        <!-- 1. Nadai Sequence & Family-Grouped Keypad -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">1. Nadai Sequence</span>
+            <span class="panel-hint">Tap speeds below • Tap chip to remove</span>
+          </div>
+
+          <!-- Active Sequence Visual Display -->
+          <div id="sequence-display-box" class="sequence-display-box">
+            <div id="sequence-groups-row" class="sequence-groups-row"></div>
+            <div class="sequence-meta-row">
+              <span id="sequence-mode-label">Explicit Grouping</span>
+              <span id="sequence-canonical-text">4-66-888</span>
+            </div>
+          </div>
+
+          <!-- Keypad Controls Row -->
+          <div class="keypad-controls-row">
+            <button id="btn-key-sep" class="btn" title="Insert group separator (-)">
+              <strong>—</strong>&nbsp;Group Separator
+            </button>
+            <button id="btn-key-backspace" class="btn" title="Remove last token">
+              ⌫ Backspace
+            </button>
+            <button id="btn-key-clear" class="btn danger" title="Clear entire sequence">
+              ✕ Clear
+            </button>
+          </div>
+
+          <!-- Family-Grouped Speed Buttons (Rendered dynamically from NADAI_FAMILIES) -->
+          <div id="keypad-rows" class="keypad-rows"></div>
+
+          <!-- Quick Sequence Presets -->
+          <div style="margin-top: 10px;">
+            <div class="panel-hint" style="margin-bottom: 6px;">Quick Examples:</div>
+            <div id="preset-sequences-row" class="preset-chips-row">
+              <button type="button" class="preset-chip" data-seq="3 3 4">3 3 4 (Ungrouped)</button>
+              <button type="button" class="preset-chip" data-seq="4-66-888">4-66-888</button>
+              <button type="button" class="preset-chip" data-seq="4/3 4 6">4/3 4 6</button>
+              <button type="button" class="preset-chip" data-seq="4/3-44-888">4/3-44-888</button>
+              <button type="button" class="preset-chip" data-seq="3 4 5">3 4 5</button>
+              <button type="button" class="preset-chip" data-seq="5-10.10">5-10.10</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Thalam & Eduppu Configuration -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">2. Thalam &amp; Eduppu</span>
+            <span class="panel-hint">Default speed: 4 syllables / beat</span>
+          </div>
+
+          <!-- Thalam Input -->
+          <div class="form-row">
+            <div class="form-label-bar">
+              <label for="input-thalam" class="form-label">Thalam Cycle Duration (Syllables)</label>
+              <span id="thalam-beats-label" class="form-sub">8 beats</span>
+            </div>
+            <div class="input-split">
+              <select id="select-thalam-preset" class="select-input" aria-label="Thalam preset"></select>
+              <input id="input-thalam" type="number" min="2" step="2" value="32" class="number-input" aria-label="Thalam syllables">
+            </div>
+          </div>
+
+          <!-- Eduppu Input -->
+          <div class="form-row" style="margin-bottom: 6px;">
+            <div class="form-label-bar">
+              <label for="input-eduppu" class="form-label">Eduppu Offset (Syllables from Samam)</label>
+              <span id="eduppu-beats-label" class="form-sub">1 beat (+4)</span>
+            </div>
+            <div class="input-split">
+              <div id="eduppu-quick-chips" class="preset-chips-row">
+                <button type="button" class="preset-chip" data-eduppu="0">0 (Samam)</button>
+                <button type="button" class="preset-chip" data-eduppu="2">2 (½ beat)</button>
+                <button type="button" class="preset-chip" data-eduppu="3">3 (¾ beat)</button>
+                <button type="button" class="preset-chip" data-eduppu="4">4 (1 beat)</button>
+                <button type="button" class="preset-chip" data-eduppu="6">6 (1½ beats)</button>
+              </div>
+              <input id="input-eduppu" type="number" min="0" step="1" value="4" class="number-input" aria-label="Eduppu syllables">
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Saved / Favorite Queries -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">★ Saved / Favorite Queries</span>
+            <span id="favorites-count-label" class="panel-hint">0 saved</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+            <input id="input-favorite-name" type="text" class="text-input" placeholder="Optional label (e.g. Adi Thalam Tisra-Chatusra)...">
+            <button id="btn-add-favorite-inline" class="btn primary" style="white-space: nowrap;">+ Save</button>
+          </div>
+          <div id="favorites-list" class="favorites-list"></div>
+        </div>
+      </section>
+
+      <!-- Right Column: Kernel Cards, Alignment Inspector, Solutions Table -->
+      <section aria-label="Calculated Kernels and Solutions">
+        <!-- Error Banner (if sequence is empty) -->
+        <div id="error-banner" class="panel" style="display: none; border-color: var(--accent-danger); color: #fca5a5;"></div>
+
+        <!-- Kernels Summary Cards -->
+        <div id="kernels-section">
+          <div class="kernels-grid">
+            <!-- Basic Kernel Card -->
+            <div class="kernel-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="kernel-badge">Basic Kernel (Uniform Length)</span>
+                <button id="btn-inspect-basic" class="btn" style="padding: 3px 8px; font-size: 0.74rem;">
+                  🔍 Inspect Steps
+                </button>
+              </div>
+              <div id="basic-main-val" class="kernel-main-val">6 is to 23</div>
+              <div id="basic-sub-val" class="kernel-sub-val">
+                Playing length 6 in each nadai takes 23 syllables (5 ¾ beats)
+              </div>
+            </div>
+
+            <!-- Difference Basic Kernel Card -->
+            <div class="kernel-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="kernel-badge">Difference_Basic Kernel (Arithmetic Progression)</span>
+                <button id="btn-inspect-diff" class="btn" style="padding: 3px 8px; font-size: 0.74rem;">
+                  🔍 Inspect Steps
+                </button>
+              </div>
+              <div id="diff-main-val" class="kernel-main-val">2 3 4 is to 12</div>
+              <div id="diff-sub-val" class="kernel-sub-val">
+                Start = 2, Step d = +1 • Takes 12 syllables (3 beats)
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Beat-by-Beat Alignment Breakdown Drawer -->
+          <div id="breakdown-panel" class="panel" style="display: none;">
+            <div class="panel-header">
+              <span id="breakdown-title" class="panel-title">Step-by-Step Beat Alignment</span>
+              <button id="btn-close-breakdown" class="btn" style="padding: 3px 9px; font-size: 0.76rem;">✕ Close</button>
+            </div>
+            <div id="breakdown-summary" class="panel-hint" style="margin-bottom: 8px;"></div>
+            <div class="table-wrapper">
+              <table class="breakdown-table">
+                <thead>
+                  <tr>
+                    <th>Segment</th>
+                    <th>Group</th>
+                    <th>Nadai Speed</th>
+                    <th>Phrase Length (ℓ)</th>
+                    <th>Starts At (Beats)</th>
+                    <th>Required Grid</th>
+                    <th>Ends At (Beats)</th>
+                  </tr>
+                </thead>
+                <tbody id="breakdown-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Solutions Table Panel -->
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <span class="panel-title">3. Valid Korvai Combinations (a × basic + b × diff_basic)</span>
+                <div id="congruence-equation-sub" class="panel-hint" style="margin-top: 2px;">
+                  Solving (a × 23 + b × 12) ≡ 4 (mod 32) with a ≥ 0, b ≥ 0
+                </div>
+              </div>
+              <span id="solutions-count-badge" class="form-sub">0 solutions</span>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+              <div class="pill-tabs" role="tablist">
+                <button type="button" class="pill-tab active" data-filter="increasing">Increasing Only (b &gt; 0)</button>
+                <button type="button" class="pill-tab" data-filter="all">All Valid (b ≥ 0)</button>
+                <button type="button" class="pill-tab" data-filter="uniform">Uniform Only (b = 0)</button>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="select-max-range" class="panel-hint">Search range (a, b):</label>
+                <select id="select-max-range" class="select-input" style="width: auto; padding: 4px 8px; font-size: 0.8rem;">
+                  <option value="15">0 .. 15</option>
+                  <option value="25" selected>0 .. 25</option>
+                  <option value="50">0 .. 50</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Solutions Table -->
+            <div class="table-wrapper">
+              <table class="solutions-table">
+                <thead>
+                  <tr>
+                    <th>Phrase Lengths per Group</th>
+                    <th>Step (Δ)</th>
+                    <th>Linear Combination (a, b)</th>
+                    <th>Total Duration</th>
+                    <th>Thalam Cycles</th>
+                  </tr>
+                </thead>
+                <tbody id="solutions-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-banner" class="toast-banner"></div>
+
+  <script type="module" src="debug.js"></script>
+</body>
+</html>

@@ -676,3 +676,139 @@ body {
   z-index: 1000;
   display: none;
 }
+
+/* ============================================================================
+ * Mobile-First Main App Layout (index.html)
+ * ============================================================================ */
+.mobile-shell {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 12px 12px 40px;
+}
+
+.mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+}
+
+.mobile-header .logo-title {
+  font-size: 1.05rem;
+}
+
+.mobile-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.mobile-card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.thalam-eduppu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.compact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.compact-field label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.compact-keypad-row {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.compact-keypad-row .family-label-name {
+  font-size: 0.8rem;
+}
+
+.compact-keypad-row .speed-btn {
+  min-width: 42px;
+  height: 34px;
+  padding: 0 10px;
+  font-size: 0.92rem;
+}
+
+/* Phrase-Only Solution List */
+.phrase-results-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.phrase-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.phrase-result-index {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 28px;
+}
+
+.phrase-values-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+
+.phrase-value-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  padding: 4px 11px;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 1rem;
+  border: 1px solid transparent;
+}
+
+.phrase-sep {
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
