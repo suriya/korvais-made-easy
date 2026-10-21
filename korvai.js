@@ -6,10 +6,11 @@
 
 /**
  * @typedef {Object} NadaiSpec
- * @property {string} id - Canonical token string (e.g. '4', '10', '4/3')
- * @property {string} label - Display label on button/chip
+ * @property {string} id - Canonical token string (e.g. '4', '10', '3/2', '2/3', '4/3')
+ * @property {string} label - Display label on button/chip (e.g. '1½', '2/3', '4/3')
  * @property {number} num - Numerator p of syllables per beat (p/q)
  * @property {number} den - Denominator q of syllables per beat (p/q)
+ * @property {number} div - Beat subdivision denominator for entry alignment (1/div of a beat)
  * @property {string} family - Nadai family ID for grouping & color coding
  * @property {string} name - Traditional Carnatic speed name
  */
@@ -29,6 +30,7 @@ export const NADAI_CATALOG = {
     label: '1',
     num: 1,
     den: 1,
+    div: 1,
     family: 'chaturshram',
     name: 'Chaturshra Athi Keez Kaalam',
   },
@@ -37,6 +39,7 @@ export const NADAI_CATALOG = {
     label: '2',
     num: 2,
     den: 1,
+    div: 4,
     family: 'chaturshram',
     name: 'Chaturshra Keez Kaalam',
   },
@@ -45,6 +48,7 @@ export const NADAI_CATALOG = {
     label: '4',
     num: 4,
     den: 1,
+    div: 4,
     family: 'chaturshram',
     name: 'Chaturshram (Sama Kaalam)',
   },
@@ -53,14 +57,25 @@ export const NADAI_CATALOG = {
     label: '8',
     num: 8,
     den: 1,
+    div: 8,
     family: 'chaturshram',
     name: 'Chaturshra Mel Kaalam',
+  },
+  '3/2': {
+    id: '3/2',
+    label: '1½',
+    num: 3,
+    den: 2,
+    div: 3,
+    family: 'trishram',
+    name: 'Trishra Keez Kaalam',
   },
   '3': {
     id: '3',
     label: '3',
     num: 3,
     den: 1,
+    div: 3,
     family: 'trishram',
     name: 'Trishram',
   },
@@ -69,22 +84,43 @@ export const NADAI_CATALOG = {
     label: '6',
     num: 6,
     den: 1,
+    div: 6,
     family: 'trishram',
     name: 'Trishra Mel Kaalam',
+  },
+  '2/3': {
+    id: '2/3',
+    label: '2/3',
+    num: 2,
+    den: 3,
+    div: 4,
+    family: 'chaturshra_trishram',
+    name: 'Chaturshra Trishram Keez Kaalam',
   },
   '4/3': {
     id: '4/3',
     label: '4/3',
     num: 4,
     den: 3,
+    div: 4,
     family: 'chaturshra_trishram',
     name: 'Chaturshra Trishram',
+  },
+  '8/3': {
+    id: '8/3',
+    label: '8/3',
+    num: 8,
+    den: 3,
+    div: 8,
+    family: 'chaturshra_trishram',
+    name: 'Chaturshra Trishram Mel Kaalam',
   },
   '5': {
     id: '5',
     label: '5',
     num: 5,
     den: 1,
+    div: 5,
     family: 'khandam',
     name: 'Khandam',
   },
@@ -93,6 +129,7 @@ export const NADAI_CATALOG = {
     label: '10',
     num: 10,
     den: 1,
+    div: 10,
     family: 'khandam',
     name: 'Khanda Mel Kaalam',
   },
@@ -101,6 +138,7 @@ export const NADAI_CATALOG = {
     label: '7',
     num: 7,
     den: 1,
+    div: 7,
     family: 'mishram',
     name: 'Mishram',
   },
@@ -109,6 +147,7 @@ export const NADAI_CATALOG = {
     label: '9',
     num: 9,
     den: 1,
+    div: 9,
     family: 'sankeernam',
     name: 'Sankeernam',
   },
@@ -125,14 +164,14 @@ export const NADAI_FAMILIES = [
   {
     id: 'trishram',
     label: 'Trishram',
-    subtitle: '3, 6 syllables / beat',
-    speeds: ['3', '6'],
+    subtitle: '1½, 3, 6 syllables / beat',
+    speeds: ['3/2', '3', '6'],
   },
   {
     id: 'chaturshra_trishram',
     label: 'Chaturshra Trishram',
-    subtitle: '4/3 syllables / beat (3/4 beat per letter)',
-    speeds: ['4/3'],
+    subtitle: '2/3, 4/3, 8/3 syllables / beat',
+    speeds: ['2/3', '4/3', '8/3'],
   },
   {
     id: 'khandam',
@@ -248,16 +287,22 @@ export function formatFraction(num, den) {
 }
 
 /**
- * Parses a single nadai token (e.g. "4", "10", "4/3") into a NadaiSpec.
+ * Parses a single nadai token (e.g. "4", "10", "3/2", "1½", "1.5", "2/3", "4/3") into a NadaiSpec.
  * Supports catalog speeds as well as arbitrary positive rational p/q if needed.
  * @param {string | number | NadaiSpec} token
  * @returns {NadaiSpec}
  */
 export function parseNadaiToken(token) {
   if (typeof token === 'object' && token !== null && typeof token.num === 'number') {
-    return token;
+    return {
+      ...token,
+      div: token.div ?? token.num,
+    };
   }
   const str = String(token).trim();
+  if (str === '1½' || str === '1 1/2' || str === '1.5') {
+    return NADAI_CATALOG['3/2'];
+  }
   if (NADAI_CATALOG[str]) {
     return NADAI_CATALOG[str];
   }
@@ -281,25 +326,26 @@ export function parseNadaiToken(token) {
       label: id,
       num: rn,
       den: rd,
+      div: rn,
       family: 'chaturshra_trishram',
       name: `Custom (${id})`,
     };
   }
   const n = Number(str);
   if (!Number.isInteger(n) || n < 1 || n > 10) {
-    throw new Error(`Unsupported nadai speed "${str}". Supported speeds are 1–10 and 4/3.`);
+    throw new Error(`Unsupported nadai speed "${str}".`);
   }
   return NADAI_CATALOG[String(n)];
 }
 
 /**
- * Tokenizes a group chunk like "66", "6 6", "6.6", "10.10", "4/3.4/3", "1010", or "4/3"
+ * Tokenizes a group chunk like "66", "6 6", "6.6", "10.10", "4/3.4/3", "3/2", "2/3", "1½"
  * into individual nadai token strings.
  * @param {string} chunk
  * @returns {string[]}
  */
 function tokenizeGroupChunk(chunk) {
-  const trimmed = chunk.trim();
+  const trimmed = chunk.trim().replace(/1\s+1\/2/g, '3/2');
   if (!trimmed) return [];
 
   // If separated by spaces, dots, commas, or underscores, split on those delimiters
@@ -310,19 +356,27 @@ function tokenizeGroupChunk(chunk) {
       .filter(Boolean);
   }
 
-  // Exact match for a single catalog speed (e.g. "10" or "4/3")
-  if (NADAI_CATALOG[trimmed]) {
-    return [trimmed];
+  // Exact match for a single catalog speed or alias
+  if (NADAI_CATALOG[trimmed] || trimmed === '1½') {
+    return [trimmed === '1½' ? '3/2' : trimmed];
   }
 
-  // Otherwise scan left-to-right matching "4/3", "10", or single digits "1"-"9"
+  // Otherwise scan left-to-right matching "8/3", "4/3", "2/3", "3/2", "1½", "10", or single digits "1"-"9"
   /** @type {string[]} */
   const tokens = [];
   let i = 0;
   while (i < trimmed.length) {
-    if (trimmed.startsWith('4/3', i)) {
-      tokens.push('4/3');
+    if (
+      trimmed.startsWith('8/3', i) ||
+      trimmed.startsWith('4/3', i) ||
+      trimmed.startsWith('2/3', i) ||
+      trimmed.startsWith('3/2', i)
+    ) {
+      tokens.push(trimmed.slice(i, i + 3));
       i += 3;
+    } else if (trimmed.startsWith('1½', i)) {
+      tokens.push('3/2');
+      i += 2;
     } else if (trimmed.startsWith('10', i)) {
       tokens.push('10');
       i += 2;
@@ -545,7 +599,7 @@ export function evaluateSequence(groups, groupLengths) {
   }
 
   const flatSpecs = groups.flat();
-  const M = lcmArray([4, ...flatSpecs.map((s) => s.num)]);
+  const M = lcmArray([4, ...flatSpecs.map((s) => lcm(s.num, s.div ?? s.num))]);
 
   let ticks = 0;
   let segmentIndex = 0;
@@ -557,13 +611,15 @@ export function evaluateSequence(groups, groupLengths) {
     const group = groups[gIdx];
     const length = groupLengths[gIdx];
     for (const spec of group) {
-      const entryStepTicks = M / spec.num;
+      const divFactor = spec.div ?? spec.num;
+      const entryStepTicks = M / divFactor;
       const entryValid = ticks % entryStepTicks === 0;
       if (!entryValid) {
         allEntriesValid = false;
       }
       const startTicks = ticks;
-      const deltaTicks = length * spec.den * entryStepTicks;
+      const durationStepTicks = M / spec.num;
+      const deltaTicks = length * spec.den * durationStepTicks;
       ticks += deltaTicks;
 
       steps.push({
@@ -611,11 +667,13 @@ export function evaluateDurationFast(groups, groupLengths, M) {
     const length = groupLengths[gIdx];
     for (let i = 0; i < group.length; i++) {
       const spec = group[i];
-      const entryStep = M / spec.num;
+      const divFactor = spec.div ?? spec.num;
+      const entryStep = M / divFactor;
       if (ticks % entryStep !== 0) {
         return null;
       }
-      ticks += length * spec.den * entryStep;
+      const durationStep = M / spec.num;
+      ticks += length * spec.den * durationStep;
     }
   }
   const exitStep = M / 4;
@@ -646,7 +704,7 @@ export function findBasic(groupsOrInput) {
       : parseNadaiGroups(/** @type {string | string[]} */ (groupsOrInput));
 
   const flatSpecs = groups.flat();
-  const M = lcmArray([4, ...flatSpecs.map((s) => s.num)]);
+  const M = lcmArray([4, ...flatSpecs.map((s) => lcm(s.num, s.div ?? s.num))]);
   const k = groups.length;
 
   for (let L = 1; L <= M; L++) {
@@ -690,7 +748,7 @@ export function findDifferenceBasic(groupsOrInput) {
       : parseNadaiGroups(/** @type {string | string[]} */ (groupsOrInput));
 
   const flatSpecs = groups.flat();
-  const M = lcmArray([4, ...flatSpecs.map((s) => s.num)]);
+  const M = lcmArray([4, ...flatSpecs.map((s) => lcm(s.num, s.div ?? s.num))]);
   const k = groups.length;
 
   for (let d = 1; d <= M; d++) {

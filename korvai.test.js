@@ -159,24 +159,50 @@ describe('1. Math & Fraction Formatting', () => {
 // 2. Nadai Catalog, Keypad Grouping & Parsing Tests
 // ============================================================================
 describe('2. Nadai Catalog & Sequence Parsing', () => {
-  test('Catalog contains all speeds 1..10 plus 4/3 Chaturshra Trishram', () => {
+  test('Catalog contains all speeds 1..10 plus 1½ (3/2), 2/3, and 4/3', () => {
     for (let i = 1; i <= 10; i++) {
       const spec = NADAI_CATALOG[String(i)];
       assert.ok(spec, `Speed ${i} should exist in NADAI_CATALOG`);
       assert.equal(spec.num, i);
       assert.equal(spec.den, 1);
+      assert.equal(spec.div, i === 2 ? 4 : i);
     }
+    const tkk = NADAI_CATALOG['3/2'];
+    assert.ok(tkk, '3/2 should exist in NADAI_CATALOG');
+    assert.equal(tkk.label, '1½');
+    assert.equal(tkk.num, 3);
+    assert.equal(tkk.den, 2);
+    assert.equal(tkk.div, 3);
+
+    const ctk = NADAI_CATALOG['2/3'];
+    assert.ok(ctk, '2/3 should exist in NADAI_CATALOG');
+    assert.equal(ctk.label, '2/3');
+    assert.equal(ctk.num, 2);
+    assert.equal(ctk.den, 3);
+    assert.equal(ctk.div, 4);
+
     const ct = NADAI_CATALOG['4/3'];
     assert.ok(ct, '4/3 should exist in NADAI_CATALOG');
     assert.equal(ct.num, 4);
     assert.equal(ct.den, 3);
+    assert.equal(ct.div, 4);
     assert.equal(ct.name, 'Chaturshra Trishram');
+
+    const ctm = NADAI_CATALOG['8/3'];
+    assert.ok(ctm, '8/3 should exist in NADAI_CATALOG');
+    assert.equal(ctm.label, '8/3');
+    assert.equal(ctm.num, 8);
+    assert.equal(ctm.den, 3);
+    assert.equal(ctm.div, 8);
+    assert.equal(ctm.name, 'Chaturshra Trishram Mel Kaalam');
   });
 
-  test('Chaturshra Trishram has its own dedicated row in NADAI_FAMILIES', () => {
+  test('Chaturshra Trishram has its own dedicated row in NADAI_FAMILIES with 2/3, 4/3, and 8/3', () => {
     const ctFamily = NADAI_FAMILIES.find((f) => f.id === 'chaturshra_trishram');
     assert.ok(ctFamily, 'chaturshra_trishram family should exist');
-    assert.deepEqual(ctFamily.speeds, ['4/3']);
+    assert.deepEqual(ctFamily.speeds, ['2/3', '4/3', '8/3']);
+    const trishramFamily = NADAI_FAMILIES.find((f) => f.id === 'trishram');
+    assert.deepEqual(trishramFamily?.speeds, ['3/2', '3', '6']);
     const chaturshramFamily = NADAI_FAMILIES.find((f) => f.id === 'chaturshram');
     assert.deepEqual(chaturshramFamily?.speeds, ['1', '2', '4', '8']);
   });
@@ -332,6 +358,50 @@ describe('3. Divisibility & Alignment Evaluation', () => {
     assert.equal(evPass.valid, true);
     assert.equal(evPass.durationSyllables, 7);
     assert.equal(evPass.durationBeatsFormatted, '1 ¾');
+  });
+
+  test('Trishra Keez Kaalam (1½ = 3/2) has 1/3-beat divisibility and 2/3-beat per syllable duration', () => {
+    // Playing 1 syllable in nadai 3 takes 1/3 beat.
+    // Entering 1½ (3/2) at 1/3 beat IS valid (since divisibility is 1/3)!
+    // Playing 1 syllable in 1½ adds 2/3 beat -> ends at 1/3 + 2/3 = 1 beat (4 syllables).
+    const g = parseNadaiGroups('3 1½');
+    const ev = evaluateSequence(g, [1, 1]);
+    assert.equal(ev.valid, true);
+    assert.equal(ev.durationSyllables, 4);
+    assert.equal(ev.durationBeatsFormatted, '1');
+  });
+
+  test('Chaturshra Trishram 2/3 has 1/4-beat divisibility and 3/2-beat per syllable duration', () => {
+    // Playing 1 syllable in nadai 4 takes 1/4 beat.
+    // Entering 2/3 at 1/4 beat IS valid (since divisibility is 1/4)!
+    // Playing 1 syllable in 2/3 adds 3/2 beats -> ends at 1/4 + 6/4 = 7/4 beats (7 syllables).
+    const g = parseNadaiGroups('4 2/3');
+    const ev = evaluateSequence(g, [1, 1]);
+    assert.equal(ev.valid, true);
+    assert.equal(ev.durationSyllables, 7);
+    assert.equal(ev.durationBeatsFormatted, '1 ¾');
+  });
+
+  test('Chaturshram 2 (Chaturshra Keez Kaalam) has 1/4-beat divisibility and 1/2-beat per syllable duration', () => {
+    // Playing 1 syllable in nadai 4 takes 1/4 beat.
+    // Entering nadai 2 at 1/4 beat IS valid (since divisibility is 1/4)!
+    // Playing 1 syllable in nadai 2 adds 1/2 beat -> ends at 1/4 + 2/4 = 3/4 beat (3 syllables).
+    const g = parseNadaiGroups('4 2');
+    const ev = evaluateSequence(g, [1, 1]);
+    assert.equal(ev.valid, true);
+    assert.equal(ev.durationSyllables, 3);
+    assert.equal(ev.durationBeatsFormatted, '¾');
+  });
+
+  test('Chaturshra Trishram Mel Kaalam (8/3) has 1/8-beat divisibility and 3/8-beat per syllable duration', () => {
+    // Playing 1 syllable in nadai 8 takes 1/8 beat.
+    // Entering 8/3 at 1/8 beat IS valid (since divisibility is 1/8)!
+    // Playing 1 syllable in 8/3 adds 3/8 beat -> ends at 1/8 + 3/8 = 4/8 = 1/2 beat (2 syllables).
+    const g = parseNadaiGroups('8 8/3');
+    const ev = evaluateSequence(g, [1, 1]);
+    assert.equal(ev.valid, true);
+    assert.equal(ev.durationSyllables, 2);
+    assert.equal(ev.durationBeatsFormatted, '½');
   });
 });
 

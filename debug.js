@@ -189,7 +189,7 @@ function syncUrlFromState() {
 function renderSequenceDisplay() {
   elSequenceGroupsRow.innerHTML = '';
   const hasExplicitSep = state.tokens.includes('-');
-  const canonicalStr = serializeTokensToParam(state.tokens);
+  const canonicalStr = serializeTokensToParam(state.tokens).replace(/3\/2/g, '1½');
   elSequenceCanonicalText.textContent = canonicalStr || '(empty)';
 
   if (state.tokens.length === 0) {
