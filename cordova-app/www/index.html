@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link href="css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script> -->
+    <script src="js/handlebars.runtime.min.js"></script>
+    <script src="js/solution.handlebars.precompiled-template.js"></script>
+    <script src="js/bundle.min.js"></script>
+    <!--
+    <link href="css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/handlebars.js"></script>
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korvais Made Easy</title>
+    
+    <script>
+        // htmlAppRegisterAll();
+    </script>
+    <style type="text/css">
+body {
+  padding-top: 60px;
+}
+@media (max-width: 979px) {
+  body {
+    padding-top: 0px;
+  }
+}
+.spacer {  margin-top: 20px; }
+.faq dd { margin-bottom: 20px; }
+.solution-table td { text-align: center; width: 1px; }
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+  height: 60px;
+}
+#footer {
+  background-color: #f5f5f5;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+#wrap > .container {
+  /* padding-top: 60px; */
+}
+.container .footer-text {
+  margin: 20px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+<div id="wrap">
+<div class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <!--
+      <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a href="http://www.korvai.org" class="brand">Korvai.Org</a>
+      <!--
+      <div class="nav-collapse collapse">
+      </div>
+      -->
+ <!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <div class="content">
+                
+  <div class="text-center page-header"> <h1>Korvais Made Easy</h1> </div>
+  <div class="row"><div class="span6 offset3">
+    <p class="lead text-center">
+        Find the duration (alavu) of Korvai (creative rhythmic composition) to suit the song's starting point (Eduppu).
+        Here are some <a href="http://www.korvai.org/book.html">examples</a>.
+    </p>
+  </div></div>
+  <div class="row">
+    <div class="span5 offset1">
+      A unique aspect of Carnatic music is to sing or perform rhythmic compositions (Korvais) as
+      the finale of creative interludes (Kalpanaswarams or Thaniavarthanams).
+      The finale should conclude at the exact point where the song should resume.
+      Choose the speeds (Nadais) of your composition, the rhythm cycle
+      (Thalam), and the start point (Eduppu) of the song. Let our app calculate the
+      duration of the compositions for you.
+        <dl>
+            <dt>Nadais</dt><dd>
+        Nadais is something like "4-66-888" which means play the Korvai
+        once in Chaturshram, twice in Trishra Mel Kaalam, and thrice in
+        Chaturshra Mel Kaalam. Nadais could also be something as simple as
+        "444" which means play the Korvai thrice in Chaturshram.
+            </dd>
+            <dt>Thalam</dt><dd>
+        Thalam is the
+        number of Mathrais in one avarthanam cycle, example 14 for Mishra
+        Chapu, 64 for Two Kalai Aadi Thaalam.
+            </dd>
+            <dt>Eduppu/Place</dt><dd>
+        Eduppu is the eduppu of the
+        song in Mathirai, for example 4 for what's commonly called Arai
+        Edam.
+            </dd>
+        </dl>
+        </p>
+        
+        <form id="korvai-form" action="javascript:void(0);" class="form-horizontal">
+            <div class="control-group required">
+                    <label class="control-label" for="id_nadais">Nadais</label>
+                    <div class="controls">
+                        <input id="id_nadais" maxlength="20" name="nadais" type="text" />
+                        <p class="help-block">
+                          The Nadais to play the Korvai in. Examples: 334, 3-44-555,
+                          4-66-888.
+                        </p>
+                    </div>
+            </div>
+            <div class="control-group required">
+                    <label class="control-label" for="id_thalam">Thalam</label>
+                    <div class="controls">
+                        <input id="id_thalam" maxlength="20" name="thalam" type="text" />
+                        <p class="help-block">
+                           The Thalam of the song (in Mathirai), example 64 for Two
+                           Kalai Aadhi Thalam.
+                        </p>
+                    </div>
+            </div>
+            <div class="control-group required">
+                    <label class="control-label" for="id_place">Eduppu/Place</label>
+                    <div class="controls">
+                        <input id="id_place" maxlength="20" name="place" type="text" />
+                        <p class="help-block">
+                            The eduppu of the song (in Mathirai), example 6 for what's
+                            called Mukkal Edam; or 0 for Samam, the start
+                            of the cycle.
+                        </p>
+                    </div>
+            </div>
+            <div class="text-center form-actions" style="padding-left: 0px;">
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="span5">
+      <div id="solution">
+        <p class="text-info text-center">The solutions will appear here.</p>
+      </div>
+    </div>
+  </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="push"></div>
+</div>
+
+<div id="footer">
+    <div class="text-center container">
+        <p class="footer-text">For questions, comments, and suggestions, contact <a href="mailto:comments@korvai.org">comments@korvai.org</a>.
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

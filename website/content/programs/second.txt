@@ -1,0 +1,43 @@
+<!-- $Id: second.txt,v 1.3 2007/01/02 20:34:57 me Exp $ -->
+
+## Second Mridanga Thaniaavarthanam Programme and Book release function, 2004
+
+<a href="/book.html"
+title="Korvais Made Easy"><img class="embedded"
+src="http://farm1.static.flickr.com/143/341113989_578a9d6e74_m.jpg" width="240"
+height="167" alt="Korvais Made Easy" /></a>
+
+Our second Thaniavarthanam programme was held on the 27th of July, 2004 at
+Bharathiya Vidya Bhavan (Main Hall), Mylapore. This programme also marked the
+release of the book __Korvais Made Easy__ by M N Hariharan.  The book provides
+an easy way to compose Korvais for any Thalam, Nadai and Eduppu of a
+composition.  The book has been reviewed by several leading musicians, and
+forewords are by Guru Kaaraikkudi Mani, Madurai Shri T Srinivasan, Shri T R
+Subramanyam, Mannargudi Shri A Easwaran, Padma Shri Haridwaramangalam Shri A K
+Palanivel, Mambalam Shri M K S Siva and Mambalam Shri M K S Natarajan.  The
+forewords in english are available at our [website][forewords].  __Guru
+Kaaraikkudi Mani__ released the book, and __Madurai Shri T Srinivasan__
+received the first copy. The [speech by Guru Kaaraikkudi Mani][speech]
+{{speech}} included a Korvai in Adhi Thalam, composed using the book, in the
+Nadais Chatusram (4), Tisra Mel Kalam (6), and Chatusra Mel Kalam (8), for an
+Eduppu of 4 Mathirai ([mp3][korvai] {{korvai}}).
+
+The book release function was preceded by our second Thaniavarthanam, this time
+in Adhi Thalam. We performed all the five Nadais this year as well. A
+distinguishing feature of this programme was the fact that the Pallavis were
+sung in the same Nadais as the Thaniavarthanam.  The Pallavis extolling the
+Nadais themselves were composed by Shri T A P Ravishankar. The programme also
+featured a demonstration of the book [Korvais Made Easy][demo] {{demo}}. A
+[review][] of the programme appeared in The Hindu.
+
+In addition to all the musicians who wrote the forewords, senior musicians
+including Chinglepet Shri Ranganathan, Sangitha Kalanidhi Dr N Ramani, Prof. S
+R Janakiraman, Shri V S Narasimhan, Smt. Vasanthalakshmi Narasimhachari and
+Shri M V Narasimhachari, a lot of other young musicians, and journalists
+attended the programme.
+
+[forewords]: http://files.korvai.org/book/foreword.pdf              (Forewords in English)
+[speech]:    http://files.korvai.org/book/mani-sir-speech.mp3       (Guru Kaaraikkudi Mani Speech)
+[korvai]:    http://files.korvai.org/book/mani-sir-468.mp3          (Korvai by Guru Kaaraikkudi Mani)
+[demo]:      http://files.korvai.org/book/korvai-demonstration.mp3  (Demonstration of the book)
+[review]:    http://www.hindu.com/fr/2004/08/06/stories/2004080602430400.htm (Review in The Hindu)

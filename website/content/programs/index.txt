@@ -1,0 +1,22 @@
+<!-- $Id: index.txt,v 1.1 2006/10/23 23:44:31 me Exp $ -->
+
+## Thaniaavarthanam Programmes
+
+Mridanga Thaniaavarthanam, the heart of Carnatic music percussion, is a delight
+to all rasikas and laya rasikas in particular. We have been presenting this
+intriguing aspect of Carnatic music, with distinction, for the past four years
+in succession.  Each year we presented a unique theme through a series of
+pre-selected Thalams in all five Nadais.  Each year we have been fortunate to
+receive the encouragement and support of stalwarts and young musicians in the
+field of Carnatic music, and Rasikas as well. We thank everyone for their
+support.
+
+* [First Mridangam Thaniaavarthanam Programme, 2003 - Pancha Nadai in Eka Thaalams][first]
+* [Second Mridangam Thaniaavarthanam Programme, 2004 - Pancha Nadai in Aadhi Thaalam][second]
+* [Third Mridangam Thaniaavarthanam Programme, 2005 - Bhinna Ghaatha Bhinna Gamana Aadhi Thalams][third]
+* [Fourth Mridangam Thaniaavarthanam Programme, 2006 - Five Chaapu Thalams][fourth]
+
+[first]:  first.html  (First Mridangam Thaniaavarthanam Programme, 2003 - Pancha Nadai in Eka Thaalams)
+[second]: second.html (Second Mridangam Thaniaavarthanam Programme, 2004 - Pancha Nadai in Aadhi Thaalam)
+[third]:  third.html  (Third Mridangam Thaniaavarthanam Programme, 2005 - Bhinna Ghaatha Bhinna Gamana Aadhi Thalams)
+[fourth]: fourth.html (Fourth Mridangam Thaniaavarthanam Programme, 2006 - Five Chaapu Thalams)

@@ -1,0 +1,9 @@
+MIDlet-1: MobileUI,mridangam.png,org.korvai.kme.MobileUI
+MIDlet-Icon: mridangam.png
+MIDlet-Jar-Size: 17358
+MIDlet-Jar-URL: KorvaiDemo.jar
+MIDlet-Name: Korvais Made Easy Mobile
+MIDlet-Vendor: Korvai.org
+MIDlet-Version: 1.0.0
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profile: MIDP-2.0

@@ -1,0 +1,7 @@
+## Page not found
+
+You have requested a page or object that was not found on the server. This may
+be the result of a typo or broken link. If you feel like it, please [let us
+know][contact] the URL and how you got to this page. Thank you.
+
+[contact]: /contact.html (Contact us)

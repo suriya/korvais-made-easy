@@ -1,0 +1,17 @@
+
+To build the android app:
+$ ../activator cordova build android --release --verbose
+
+Creating a signing key (one time)
+Copied from http://ionicframework.com/docs/guide/publishing.html
+$ ../activator keytool -genkey -v -keystore korvais-made-easy.keystore -alias korvais-made-easy -keyalg RSA -keysize 2048 -validity 10000
+
+Sign the apk
+$ ../activator jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+    -keystore korvais-made-easy.keystore \
+    platforms/android/build/outputs/apk/android-release-unsigned.apk korvais-made-easy
+
+Optimize the apk
+$ ../activator zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk korvais-made-easy.apk
+
+The final apk is in: korvais-made-easy.apk

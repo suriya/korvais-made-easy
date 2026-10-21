@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="org.korvai.app.mobile.KorvaisMadeEasy" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-intent href="market:*" />
+    <icon density="mdpi" src="res/android/mipmap-mdpi/ic_launcher.png" />
+    <icon density="xhdpi" src="res/android/mipmap-xhdpi/ic_launcher.png" />
+    <icon density="hdpi" src="res/android/mipmap-hdpi/ic_launcher.png" />
+    <icon density="xxhdpi" src="res/android/mipmap-xxhdpi/ic_launcher.png" />
+    <icon density="xxxhdpi" src="res/android/mipmap-xxxhdpi/ic_launcher.png" />
+    <name>Korvais Made Easy</name>
+    <description>
+        An application based on the book Korvais Made Easy. Enables musicians
+        to calculate the duration of Korvais for various Nadai patterns.
+    </description>
+    <author email="suriya@alumni.cs.utexas.edu" href="http://www.korvai.org">
+        Suriya Subramanian
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+</widget>
