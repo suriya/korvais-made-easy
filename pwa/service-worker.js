@@ -1,4 +1,4 @@
-const CACHE_NAME = 'korvais-made-easy-v7';
+const CACHE_NAME = 'korvais-made-easy-v8';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

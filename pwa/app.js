@@ -20,7 +20,8 @@ import {
 } from './korvai.js';
 
 const FAVORITES_STORAGE_KEY = 'korvai_saved_favorites_v1';
-const TOP_N_SOLUTIONS = 30;
+const MIN_TOP_SOLUTIONS = 30;
+const MAX_PHRASE_VALUE_BELOW = 100;
 
 const state = {
   /** @type {string[]} */
@@ -272,9 +273,9 @@ function computeAndRenderResults() {
       nadai: groups,
       thalam: state.thalam,
       eduppu: state.eduppu,
-      maxA: 40,
-      maxB: 40,
-      maxSolutions: 300,
+      maxA: 100,
+      maxB: 100,
+      maxSolutions: 2000,
     });
 
     elErrorBanner.style.display = 'none';
@@ -287,15 +288,18 @@ function computeAndRenderResults() {
       return;
     }
 
-    // Deduplicate identical phrase length sequences and keep top N in ascending duration order
+    // Deduplicate identical phrase length sequences and keep the greater of:
+    // 1) the top 30 solutions, and
+    // 2) all solutions where every korvai phrase value is < 100
     const seen = new Set();
     const uniqueTop = [];
     for (const sol of result.solutions) {
       const key = sol.groupLengths.join(',');
-      if (!seen.has(key)) {
+      if (seen.has(key)) continue;
+      const allBelow100 = sol.groupLengths.every((len) => len < MAX_PHRASE_VALUE_BELOW);
+      if (uniqueTop.length < MIN_TOP_SOLUTIONS || allBelow100) {
         seen.add(key);
         uniqueTop.push(sol);
-        if (uniqueTop.length >= TOP_N_SOLUTIONS) break;
       }
     }
 
